@@ -1,0 +1,82 @@
+{"level":"DEBUG","time":"2022-12-20T21:24:15.831+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"INFO","time":"2022-12-20T21:24:15.858+0900","caller":"logger/logger.go:62","msg":"info","-":"start server "}
+{"level":"INFO","time":"2022-12-20T21:24:50.431+0900","caller":"logger/logger.go:115","msg":"/api/v0/persons","status":404,"method":"GET","path":"/api/v0/persons","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":0.000008917}
+{"level":"INFO","time":"2022-12-20T21:25:09.197+0900","caller":"logger/logger.go:115","msg":"/acc/v0/persons","status":404,"method":"GET","path":"/acc/v0/persons","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":0.000008959}
+{"level":"INFO","time":"2022-12-20T21:25:15.198+0900","caller":"logger/logger.go:115","msg":"/acc/v01/persons","status":200,"method":"GET","path":"/acc/v01/persons","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":0.049413792}
+{"level":"WARN","time":"2022-12-20T21:26:50.624+0900","caller":"logger/logger.go:72","msg":"warn","-":"Shutdown Server ... "}
+{"level":"INFO","time":"2022-12-20T21:26:51.625+0900","caller":"logger/logger.go:62","msg":"info","-":"timeout of 1 seconds. "}
+{"level":"INFO","time":"2022-12-20T21:26:51.625+0900","caller":"logger/logger.go:62","msg":"info","-":"Server exiting "}
+{"level":"DEBUG","time":"2022-12-20T21:27:18.886+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"INFO","time":"2022-12-20T21:27:18.903+0900","caller":"logger/logger.go:62","msg":"info","-":"start server "}
+{"level":"WARN","time":"2022-12-20T21:27:44.323+0900","caller":"logger/logger.go:72","msg":"warn","-":"Shutdown Server ... "}
+{"level":"INFO","time":"2022-12-20T21:27:45.325+0900","caller":"logger/logger.go:62","msg":"info","-":"timeout of 1 seconds. "}
+{"level":"INFO","time":"2022-12-20T21:27:45.325+0900","caller":"logger/logger.go:62","msg":"info","-":"Server exiting "}
+{"level":"DEBUG","time":"2022-12-20T21:32:04.713+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"INFO","time":"2022-12-20T21:32:04.736+0900","caller":"logger/logger.go:62","msg":"info","-":"start server "}
+{"level":"WARN","time":"2022-12-20T21:32:44.420+0900","caller":"logger/logger.go:72","msg":"warn","-":"Shutdown Server ... "}
+{"level":"INFO","time":"2022-12-20T21:32:45.422+0900","caller":"logger/logger.go:62","msg":"info","-":"timeout of 1 seconds. "}
+{"level":"INFO","time":"2022-12-20T21:32:45.422+0900","caller":"logger/logger.go:62","msg":"info","-":"Server exiting "}
+{"level":"DEBUG","time":"2022-12-20T21:32:47.793+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"INFO","time":"2022-12-20T21:32:47.807+0900","caller":"logger/logger.go:62","msg":"info","-":"start server "}
+{"level":"WARN","time":"2022-12-20T21:38:05.775+0900","caller":"logger/logger.go:72","msg":"warn","-":"Shutdown Server ... "}
+{"level":"INFO","time":"2022-12-20T21:38:06.777+0900","caller":"logger/logger.go:62","msg":"info","-":"timeout of 1 seconds. "}
+{"level":"INFO","time":"2022-12-20T21:38:06.777+0900","caller":"logger/logger.go:62","msg":"info","-":"Server exiting "}
+{"level":"DEBUG","time":"2022-12-20T21:38:08.965+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"INFO","time":"2022-12-20T21:38:08.983+0900","caller":"logger/logger.go:62","msg":"info","-":"start server "}
+{"level":"WARN","time":"2022-12-20T21:38:20.658+0900","caller":"logger/logger.go:72","msg":"warn","-":"Shutdown Server ... "}
+{"level":"INFO","time":"2022-12-20T21:38:21.660+0900","caller":"logger/logger.go:62","msg":"info","-":"timeout of 1 seconds. "}
+{"level":"INFO","time":"2022-12-20T21:38:21.660+0900","caller":"logger/logger.go:62","msg":"info","-":"Server exiting "}
+{"level":"DEBUG","time":"2022-12-20T21:38:24.005+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"INFO","time":"2022-12-20T21:38:24.016+0900","caller":"logger/logger.go:62","msg":"info","-":"start server "}
+{"level":"WARN","time":"2022-12-20T21:38:26.852+0900","caller":"logger/logger.go:72","msg":"warn","-":"Shutdown Server ... "}
+{"level":"INFO","time":"2022-12-20T21:38:27.853+0900","caller":"logger/logger.go:62","msg":"info","-":"timeout of 1 seconds. "}
+{"level":"INFO","time":"2022-12-20T21:38:27.853+0900","caller":"logger/logger.go:62","msg":"info","-":"Server exiting "}
+{"level":"DEBUG","time":"2022-12-20T21:39:57.979+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"INFO","time":"2022-12-20T21:39:58.004+0900","caller":"logger/logger.go:62","msg":"info","-":"start server "}
+{"level":"WARN","time":"2022-12-20T21:39:59.583+0900","caller":"logger/logger.go:72","msg":"warn","-":"Shutdown Server ... "}
+{"level":"INFO","time":"2022-12-20T21:40:00.584+0900","caller":"logger/logger.go:62","msg":"info","-":"timeout of 1 seconds. "}
+{"level":"INFO","time":"2022-12-20T21:40:00.585+0900","caller":"logger/logger.go:62","msg":"info","-":"Server exiting "}
+{"level":"DEBUG","time":"2022-12-20T21:40:10.145+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"INFO","time":"2022-12-20T21:40:10.155+0900","caller":"logger/logger.go:62","msg":"info","-":"start server "}
+{"level":"WARN","time":"2022-12-20T21:40:17.484+0900","caller":"logger/logger.go:72","msg":"warn","-":"Shutdown Server ... "}
+{"level":"INFO","time":"2022-12-20T21:40:18.485+0900","caller":"logger/logger.go:62","msg":"info","-":"timeout of 1 seconds. "}
+{"level":"INFO","time":"2022-12-20T21:40:18.485+0900","caller":"logger/logger.go:62","msg":"info","-":"Server exiting "}
+{"level":"DEBUG","time":"2022-12-20T21:41:06.346+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"INFO","time":"2022-12-20T21:41:06.361+0900","caller":"logger/logger.go:62","msg":"info","-":"start server "}
+{"level":"WARN","time":"2022-12-20T21:41:31.001+0900","caller":"logger/logger.go:72","msg":"warn","-":"Shutdown Server ... "}
+{"level":"INFO","time":"2022-12-20T21:41:32.003+0900","caller":"logger/logger.go:62","msg":"info","-":"timeout of 1 seconds. "}
+{"level":"INFO","time":"2022-12-20T21:41:32.003+0900","caller":"logger/logger.go:62","msg":"info","-":"Server exiting "}
+{"level":"DEBUG","time":"2022-12-20T21:41:33.732+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"INFO","time":"2022-12-20T21:41:33.742+0900","caller":"logger/logger.go:62","msg":"info","-":"start server "}
+{"level":"WARN","time":"2022-12-20T21:42:35.064+0900","caller":"logger/logger.go:72","msg":"warn","-":"Shutdown Server ... "}
+{"level":"INFO","time":"2022-12-20T21:42:36.066+0900","caller":"logger/logger.go:62","msg":"info","-":"timeout of 1 seconds. "}
+{"level":"INFO","time":"2022-12-20T21:42:36.066+0900","caller":"logger/logger.go:62","msg":"info","-":"Server exiting "}
+{"level":"DEBUG","time":"2022-12-20T21:42:38.862+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"INFO","time":"2022-12-20T21:42:38.876+0900","caller":"logger/logger.go:62","msg":"info","-":"start server "}
+{"level":"WARN","time":"2022-12-20T21:42:49.073+0900","caller":"logger/logger.go:72","msg":"warn","-":"Shutdown Server ... "}
+{"level":"INFO","time":"2022-12-20T21:42:50.075+0900","caller":"logger/logger.go:62","msg":"info","-":"timeout of 1 seconds. "}
+{"level":"INFO","time":"2022-12-20T21:42:50.075+0900","caller":"logger/logger.go:62","msg":"info","-":"Server exiting "}
+{"level":"DEBUG","time":"2022-12-20T23:04:59.376+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"INFO","time":"2022-12-20T23:04:59.404+0900","caller":"logger/logger.go:62","msg":"info","-":"start server "}
+{"level":"INFO","time":"2022-12-20T23:05:12.744+0900","caller":"logger/logger.go:115","msg":"/acc/v01/persons","status":404,"method":"GET","path":"/acc/v01/persons","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":0.000006958}
+{"level":"INFO","time":"2022-12-20T23:05:32.350+0900","caller":"logger/logger.go:62","msg":"info","-":"접속 IP :  [::1]:59855 호출 : GetAllPersons "}
+{"level":"INFO","time":"2022-12-20T23:05:32.355+0900","caller":"logger/logger.go:115","msg":"/api/v01/persons","status":200,"method":"GET","path":"/api/v01/persons","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":0.005084625}
+{"level":"WARN","time":"2022-12-20T23:07:10.295+0900","caller":"logger/logger.go:72","msg":"warn","-":"Shutdown Server ... "}
+{"level":"INFO","time":"2022-12-20T23:07:11.297+0900","caller":"logger/logger.go:62","msg":"info","-":"timeout of 1 seconds. "}
+{"level":"INFO","time":"2022-12-20T23:07:11.297+0900","caller":"logger/logger.go:62","msg":"info","-":"Server exiting "}
+{"level":"DEBUG","time":"2022-12-20T23:07:13.621+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"INFO","time":"2022-12-20T23:07:13.637+0900","caller":"logger/logger.go:62","msg":"info","-":"start server "}
+{"level":"INFO","time":"2022-12-20T23:07:18.375+0900","caller":"logger/logger.go:62","msg":"info","-":"접속 IP :  ::1 호출 : GetAllPersons "}
+{"level":"INFO","time":"2022-12-20T23:07:18.380+0900","caller":"logger/logger.go:115","msg":"/api/v01/persons","status":200,"method":"GET","path":"/api/v01/persons","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":0.00481275}
+{"level":"WARN","time":"2022-12-20T23:10:49.096+0900","caller":"logger/logger.go:72","msg":"warn","-":"Shutdown Server ... "}
+{"level":"INFO","time":"2022-12-20T23:10:50.098+0900","caller":"logger/logger.go:62","msg":"info","-":"timeout of 1 seconds. "}
+{"level":"INFO","time":"2022-12-20T23:10:50.098+0900","caller":"logger/logger.go:62","msg":"info","-":"Server exiting "}
+{"level":"DEBUG","time":"2022-12-20T23:10:52.525+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"INFO","time":"2022-12-20T23:10:52.534+0900","caller":"logger/logger.go:62","msg":"info","-":"start server "}
+{"level":"INFO","time":"2022-12-20T23:10:58.880+0900","caller":"logger/logger.go:115","msg":"/api/v01/persons","status":200,"method":"GET","path":"/api/v01/persons","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":0.009339875}
+{"level":"INFO","time":"2022-12-20T23:11:10.004+0900","caller":"logger/logger.go:115","msg":"/api/v01/persons","status":200,"method":"GET","path":"/api/v01/persons","query":"","ip":"::1","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":0.00332625}
+{"level":"INFO","time":"2022-12-20T23:11:44.587+0900","caller":"logger/logger.go:115","msg":"/api/v01/person/01022334455","status":200,"method":"PUT","path":"/api/v01/person/01022334455","query":"","ip":"127.0.0.1","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":0.007048292}
+{"level":"INFO","time":"2022-12-20T23:12:17.968+0900","caller":"logger/logger.go:115","msg":"/api/v01/person","status":201,"method":"POST","path":"/api/v01/person","query":"","ip":"127.0.0.1","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36","errors":"","cost":0.0258395}
+{"level":"WARN","time":"2022-12-20T23:15:42.113+0900","caller":"logger/logger.go:72","msg":"warn","-":"Shutdown Server ... "}
+{"level":"INFO","time":"2022-12-20T23:15:43.115+0900","caller":"logger/logger.go:62","msg":"info","-":"timeout of 1 seconds. "}
+{"level":"INFO","time":"2022-12-20T23:15:43.115+0900","caller":"logger/logger.go:62","msg":"info","-":"Server exiting "}
