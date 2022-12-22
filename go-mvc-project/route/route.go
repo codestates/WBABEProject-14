@@ -2,9 +2,9 @@ package route
 
 import (
 	"fmt"
+	"wba/go-mvc-procjet/docs"
 	"wba/go-mvc-procjet/logger"
 
-	"lecture/go-swag/docs"
 	ctl "wba/go-mvc-procjet/controller"
 
 	"github.com/gin-gonic/gin"
@@ -13,13 +13,13 @@ import (
 )
 
 type Router struct {
-	ct *ctl.Controller
 	oc *ctl.OrdererController
 	tc *ctl.TakerController
 }
 
-func NewRouter(ctl *ctl.Controller) (*Router, error) {
-	r := &Router{ct: ctl} //controller 포인터를 ct로 복사, 할당
+/* 주문자, 피주문자 컨트롤러 할당 */
+func NewRouter(orc *ctl.OrdererController, trc *ctl.TakerController) (*Router, error) {
+	r := &Router{oc: orc, tc: trc}
 
 	return r, nil
 }
@@ -82,21 +82,22 @@ func (p *Router) Idx() *gin.Engine {
 	e.GET("/swagger/:any", ginSwg.WrapHandler(swgFiles.Handler))
 	docs.SwaggerInfo.Host = "localhost:8080" //swagger 정보 등록
 	{
-		taker.POST("/menu", p.tc.CreateMenu)          // 메뉴 생성
-		taker.PUT("/menu", p.tc.UpdateMenu)           // 메뉴 수정
-		taker.DELETE("/menu", p.tc.DeleteMenu)        // 메뉴 삭제
-		taker.GET("/all-order", p.tc.GetAllOrder)     // 현재 주문내역 리스트 조회
-		taker.PATCH("/order", p.tc.UpdateOrderStatus) // 주문별 상태 변경
+		taker.POST("/menu", p.tc.CreateMenu)           // 메뉴 생성
+		taker.PUT("/menu", p.tc.UpdateMenu)            // 메뉴 수정
+		taker.PATCH("/menu", p.tc.UpdateMenuRecommend) // 금일 추천 메뉴 변경
+		taker.DELETE("/menu", p.tc.DeleteMenu)         // 메뉴 삭제
+		// 	taker.GET("/all-order", p.tc.GetAllOrder)     // 현재 주문내역 리스트 조회
+		// 	taker.PATCH("/order", p.tc.UpdateOrderStatus) // 주문별 상태 변경
 
 	}
 	//주문자
 	orderer := e.Group("api/v01/orderer", liteAuth())
 	{
-		orderer.GET("/menu", p.oc.CreateOrder)      // 주문 생성
-		orderer.GET("/review", p.oc.GetReview)      // 리뷰 조회
-		orderer.POST("/review,", p.oc.CreateReview) // 리뷰 생성
-		orderer.POST("/order", p.oc.CreateOrder)    // 주문 생성
-		orderer.PUT("/order", p.oc.UpdateOrder)     // 주문 변경
+		orderer.GET("/menu/:sort", p.oc.GetAllOrder)         //메뉴 리스트 조회
+		orderer.POST("/order", p.oc.CreateOrder)             // 주문 생성
+		orderer.POST("/review/:objectId", p.oc.CreateReview) // 리뷰 생성
+		orderer.GET("/review/:menuname", p.oc.GetAllReiview) // 리뷰 조회
+		// 	orderer.PUT("/order", p.oc.UpdateOrder)     // 주문 변경
 	}
 	return e
 }
