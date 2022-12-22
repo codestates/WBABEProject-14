@@ -40,7 +40,7 @@ func main() {
 	if colMenu, colOrder, colReview, err := model.NewModel(cf.DB["account"]["host"].(string)); err != nil {
 		panic(err)
 		/* Service 선언 */
-	} else if OrdererService, err := services.NewOrdererService(colOrder, colReview, context.TODO()); err != nil {
+	} else if OrdererService, err := services.NewOrdererService(colMenu, colOrder, colReview, context.TODO()); err != nil {
 		panic(err)
 	} else if TakerService, err := services.NewTakerService(colMenu, context.TODO()); err != nil {
 		panic(err)
