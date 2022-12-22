@@ -14,6 +14,7 @@ import (
 	"wba/go-mvc-procjet/logger"
 	"wba/go-mvc-procjet/model"
 	rt "wba/go-mvc-procjet/route"
+	"wba/go-mvc-procjet/services"
 
 	"golang.org/x/sync/errgroup"
 )
@@ -28,23 +29,32 @@ func main() {
 	flag.Parse()
 	cf := conf.NewConfig(*configFlag)
 
-	// 로그 초기화
+	/* 로그 초기화 */
 	if err := logger.InitLogger(cf); err != nil {
 		fmt.Printf("init logger failed, err:%v\n", err)
 		return
 	}
 
 	logger.Debug("ready server....")
-
-	// model 모듈 선언
-	if mod, err := model.NewModel(); err != nil {
+	/* Model 선언 */
+	if colMenu, colOrder, colReview, err := model.NewModel(cf.DB["account"]["host"].(string)); err != nil {
 		panic(err)
-		// controller
-	} else if controller, err := ctl.NewCTL(mod); err != nil {
+		/* Service 선언 */
+	} else if OrdererService, err := services.NewOrdererService(colOrder, colReview, context.TODO()); err != nil {
 		panic(err)
-	} else if rt, err := rt.NewRouter(controller); err != nil {
+	} else if TakerService, err := services.NewTakerService(colMenu, context.TODO()); err != nil {
+		panic(err)
+		/* Controller 선언*/
+	} else if oc, err := ctl.NewOrdererController(OrdererService); err != nil {
+		panic(err)
+	} else if rc, err := ctl.NewTakerController(TakerService); err != nil {
+		panic(err)
+		/* Router 선언 */
+	} else if rt, err := rt.NewRouter(&oc, &rc); err != nil {
 		panic(fmt.Errorf("router.NewRouter > %v", err))
+
 	} else {
+		/* Server 설정 */
 		mapi := &http.Server{
 			Addr:           cf.Server.Port,
 			Handler:        rt.Idx(),
