@@ -10,13 +10,13 @@ import (
 )
 
 type OrdererController struct {
-	OrdererController services.OrdererService
+	OrdererService services.OrdererService
 }
 
-func OrdererControllerNew(ordererservice services.OrdererService) OrdererController {
+func NewOrdererController(ordererservice services.OrdererService) (OrdererController, error) {
 	return OrdererController{
-		OrdererController: ordererservice,
-	}
+		OrdererService: ordererservice,
+	}, nil
 }
 
 // 주문자 api 컨트롤러 작성
@@ -27,7 +27,7 @@ func (oc *OrdererController) CreateOrder(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
-	err := oc.OrdererController.CreateOrder(&order)
+	err := oc.OrdererService.CreateOrder(&order)
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
 		return

@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
+	"time"
 	"wba/go-mvc-procjet/model"
 	"wba/go-mvc-procjet/services"
 
@@ -10,28 +10,30 @@ import (
 )
 
 type TakerController struct {
-	TakerController services.TakerService
+	TakerService services.TakerService
 }
 
-func TakerControllerNew(takerservice services.TakerService) TakerController {
+func NewTakerController(takerservice services.TakerService) (TakerController, error) {
 	return TakerController{
-		TakerController: takerservice,
-	}
+		TakerService: takerservice,
+	}, nil
 }
 
-// 피주문자 api 작성
-// 주문자 api 컨트롤러 작성
+/* 메뉴 등록 */
 func (oc *TakerController) CreateMenu(ctx *gin.Context) {
 	var menu model.Menu
-	fmt.Println(ctx.Request)
+	/* MENU 바인딩, ERROR 체크 */
 	if err := ctx.ShouldBindJSON(&menu); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
-	err := oc.TakerController.CreateMenu(&menu)
+	menu.CreatedAt = time.Now()
+	err := oc.TakerService.CreateMenu(&menu)
+	/* 메뉴 추가 로직에 에러 검증 */
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"message": err.Error()})
 		return
 	}
+	/* 성공 여부를 리턴 */
 	ctx.JSON(http.StatusOK, gin.H{"message": "success"})
 }
