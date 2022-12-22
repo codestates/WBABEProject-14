@@ -3,7 +3,6 @@ package services
 import (
 	"context"
 	"errors"
-	"fmt"
 	"time"
 	"wba/go-mvc-procjet/model"
 
@@ -83,9 +82,8 @@ func (o *OrdererServiceImpl) GetAllReiview(menuName string) (float64, []model.Re
 	if err = cursor.All(o.ctx, &results); err != nil {
 		panic(err)
 	}
-	fmt.Println(results[0]["avg_grade"])
-
 	avgGrade := results[0]["avg_grade"].(float64)
+
 	return avgGrade, reivewlist, nil
 }
 
@@ -114,6 +112,33 @@ func (o *OrdererServiceImpl) CreateReview(review *model.Review, id string) error
 		},
 	}
 	_, err := o.orderCollection.UpdateByID(o.ctx, objId, query)
+
+	/* 메뉴 평점 업데이트 */
+	groupStage := bson.D{
+		{Key: "$group", Value: bson.D{
+			{Key: "_id", Value: "$menuname"},
+			{Key: "avg_grade", Value: bson.D{{Key: "$avg", Value: "$grade"}}},
+			{Key: "type_total", Value: bson.D{{Key: "$sum", Value: 1}}},
+		}}}
+
+	/* 집계함수에 그룹스테이지 조건 대입 */
+	cursor, err := o.reviewCollection.Aggregate(o.ctx, mongo.Pipeline{groupStage})
+	if err != nil {
+		panic(err)
+	}
+
+	/* 결과 표시 */
+	var results []bson.M
+	if err = cursor.All(o.ctx, &results); err != nil {
+		panic(err)
+	}
+	avgGrade := results[0]["avg_grade"].(float64)
+	query = bson.M{
+		"$set": bson.M{
+			"grade": avgGrade,
+		},
+	}
+	o.menuCollection.FindOneAndUpdate(o.ctx, bson.M{"menuname": review.MenuName}, query)
 
 	return err
 }
