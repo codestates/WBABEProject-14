@@ -1,16 +1,20 @@
 package model
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"time"
+)
 
 // 메뉴
 type Menu struct {
-	MenuName    string             `json:"menuname" bson:"menuname"`
-	OrderStatus bool               `json:"orderstatus" bson:"orderstatus"`
-	LimitOrder  int                `json:"limitorder" bson:"limitorder"`
-	Origin      string             `json:"origin" bson:"origin"`
-	Price       int                `json:"price" bson:"price"`
-	Spice       int                `json:"spice" bson:"spice"`
-	IsDelete    bool               `json:"isdelete" bson:"isdelete"`
-	Reorder     int                `json:"reorder" bson:"reorder"`
-	CreatedAt   primitive.DateTime `json:"createdat" bson:"createdat"`
+	MenuName    string    `json:"menuname" bson:"menuname" validate:"required"`
+	OrderStatus bool      `json:"orderstatus" bson:"orderstatus" validate:"required"`
+	LimitOrder  int       `json:"limitorder" bson:"limitorder" validate:"required"`
+	Origin      string    `json:"origin" bson:"origin" validate:"required"`
+	Price       int       `json:"price" bson:"price" validate:"required"`
+	Spice       int       `json:"spice" bson:"spice" validate:"required"`
+	IsDelete    bool      `json:"isdelete" bson:"isdelete" validate:"required"`
+	Reorder     int       `json:"reorder" bson:"reorder" validate:"required"`
+	Recommend   bool      `json:"recommend" bson:"recommend" validate:"required"`
+	CreatedAt   time.Time `json:"createdat" bson:"createdat" validate:"required"`
+	Grade       float64   `json:"grade" bson:"grade"`
 }
