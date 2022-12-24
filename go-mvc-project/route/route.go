@@ -86,8 +86,8 @@ func (p *Router) Idx() *gin.Engine {
 		taker.PUT("/menu", p.tc.UpdateMenu)            // 메뉴 수정
 		taker.PATCH("/menu", p.tc.UpdateMenuRecommend) // 금일 추천 메뉴 변경
 		taker.DELETE("/menu", p.tc.DeleteMenu)         // 메뉴 삭제
-		// 	taker.GET("/all-order", p.tc.GetAllOrder)     // 현재 주문내역 리스트 조회
-		// 	taker.PATCH("/order", p.tc.UpdateOrderStatus) // 주문별 상태 변경
+		taker.GET("/orders", p.tc.GetOrderList)        // 현재 주문내역 리스트 조회
+		//		taker.PATCH("/order", p.tc.UpdateOrderStatus)  // 주문별 상태 변경
 
 	}
 	//주문자
@@ -97,7 +97,8 @@ func (p *Router) Idx() *gin.Engine {
 		orderer.POST("/order", p.oc.CreateOrder)             // 주문 생성
 		orderer.POST("/review/:objectId", p.oc.CreateReview) // 리뷰 생성
 		orderer.GET("/review/:menuname", p.oc.GetAllReiview) // 리뷰 조회
-		// 	orderer.PUT("/order", p.oc.UpdateOrder)     // 주문 변경
+		orderer.PATCH("/order/:id", p.oc.UpdateOrder)        // 주문 변경
+		orderer.GET("/orders", p.oc.GetOrders)               //주문 내역 조회
 	}
 	return e
 }
