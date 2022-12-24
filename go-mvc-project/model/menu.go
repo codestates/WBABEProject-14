@@ -2,19 +2,22 @@ package model
 
 import (
 	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // 메뉴
 type Menu struct {
-	MenuName    string    `json:"menuname" bson:"menuname" validate:"required"`
-	OrderStatus bool      `json:"orderstatus" bson:"orderstatus" validate:"required"`
-	LimitOrder  int       `json:"limitorder" bson:"limitorder" validate:"required"`
-	Origin      string    `json:"origin" bson:"origin" validate:"required"`
-	Price       int       `json:"price" bson:"price" validate:"required"`
-	Spice       int       `json:"spice" bson:"spice" validate:"required"`
-	IsDelete    bool      `json:"isdelete" bson:"isdelete" validate:"required"`
-	Reorder     int       `json:"reorder" bson:"reorder" validate:"required"`
-	Recommend   bool      `json:"recommend" bson:"recommend" validate:"required"`
-	CreatedAt   time.Time `json:"createdat" bson:"createdat" validate:"required"`
-	Grade       float64   `json:"grade" bson:"grade"`
+	ID          primitive.ObjectID `json:"_id" bson:"_id" example:"63a73a1c8d989838729bc114"`
+	MenuName    string             `json:"menuname" bson:"menuname" example:"떡볶이"`
+	OrderStatus bool               `json:"orderstatus" bson:"orderstatus" example:"true"`
+	LimitOrder  int                `json:"limitorder" bson:"limitorder" example:"100"`
+	Origin      string             `json:"origin" bson:"origin" example:"국내산"`
+	Price       int                `json:"price" bson:"price" example:"150000"`
+	Spice       int                `json:"spice" bson:"spice" example:"3"`
+	IsDelete    bool               `json:"isdelete" bson:"isdelete" example:"false"`
+	Reorder     int                `json:"reorder" bson:"reorder" example:"30"`
+	Recommend   bool               `json:"recommend" bson:"recommend" example:"true"`
+	CreatedAt   time.Time          `json:"createdat" bson:"createdat" example:"2022-12-24T16:17:12.793+00:00"`
+	Grade       float64            `json:"grade" bson:"grade" example:"3.5"`
 }
