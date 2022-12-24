@@ -9,17 +9,20 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type TakerServiceImpl struct {
-	menuCollection *mongo.Collection
-	ctx            context.Context
+	menuCollection  *mongo.Collection
+	orderCollection *mongo.Collection
+	ctx             context.Context
 }
 
-func NewTakerService(mc *mongo.Collection, ctx context.Context) (TakerService, error) {
+func NewTakerService(mc *mongo.Collection, oc *mongo.Collection, ctx context.Context) (TakerService, error) {
 	return &TakerServiceImpl{
-		menuCollection: mc,
-		ctx:            ctx,
+		menuCollection:  mc,
+		orderCollection: oc,
+		ctx:             ctx,
 	}, nil
 }
 
@@ -77,4 +80,22 @@ func (o *TakerServiceImpl) UpdateMenuRecommend(menu *model.Menu) error {
 	}
 	_, err := o.menuCollection.UpdateOne(o.ctx, filter, query)
 	return err
+}
+
+/* 현재 주문 내역 조회 */
+func (o *TakerServiceImpl) GetOrderList() ([]*model.Order, error) {
+
+	filter := bson.M{"status": 0}                                         //접수중인 주문만
+	opts := options.Find().SetSort(bson.D{{Key: "createdat", Value: -1}}) //최신순으로
+
+	var orderList []*model.Order
+
+	if corsur, err := o.orderCollection.Find(o.ctx, filter, opts); err != nil {
+		fmt.Println(err)
+		panic(err)
+	} else if err := corsur.All(o.ctx, &orderList); err != nil {
+		fmt.Println(err)
+		panic(err)
+	}
+	return orderList, nil
 }
