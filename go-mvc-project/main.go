@@ -42,7 +42,7 @@ func main() {
 		/* Service 선언 */
 	} else if OrdererService, err := services.NewOrdererService(colMenu, colOrder, colReview, context.TODO()); err != nil {
 		panic(err)
-	} else if TakerService, err := services.NewTakerService(colMenu, context.TODO()); err != nil {
+	} else if TakerService, err := services.NewTakerService(colMenu, colOrder, context.TODO()); err != nil {
 		panic(err)
 		/* Controller 선언*/
 	} else if oc, err := ctl.NewOrdererController(OrdererService); err != nil {
