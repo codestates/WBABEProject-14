@@ -8,6 +8,7 @@ import (
 	"wba/go-mvc-procjet/model"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -98,4 +99,21 @@ func (o *TakerServiceImpl) GetOrderList() ([]*model.Order, error) {
 		panic(err)
 	}
 	return orderList, nil
+}
+
+/* 주문별 상태 변경 */
+func (o *TakerServiceImpl) UpdateOrderStatus(id string, status int) error {
+	objId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		panic(err)
+	}
+	query := bson.M{
+		"$set": bson.M{
+			"status": status,
+		},
+	}
+	if _, err := o.orderCollection.UpdateByID(o.ctx, objId, query); err != nil {
+		return err
+	}
+	return nil
 }
