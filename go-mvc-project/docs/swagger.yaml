@@ -1,0 +1,541 @@
+definitions:
+  model.ApiCreateMenuRequest:
+    properties:
+      limitorder:
+        example: 300
+        type: integer
+      menuname:
+        example: 우동
+        type: string
+      orderstatus:
+        example: false
+        type: boolean
+      origin:
+        example: 국내산
+        type: string
+      price:
+        example: 15000
+        type: integer
+      sprice:
+        type: integer
+    type: object
+  model.ApiCreateReviewRequest:
+    properties:
+      comment:
+        example: 맛있어요
+        type: string
+      grade:
+        example: 3.5
+        type: number
+    type: object
+  model.ApiGetMenuDetailResponse:
+    properties:
+      avgGrade:
+        example: 3.5
+        type: number
+      reviewList:
+        items:
+          $ref: '#/definitions/model.Review'
+        type: array
+    type: object
+  model.ApiGetOrderListResponse:
+    properties:
+      orders:
+        items:
+          $ref: '#/definitions/model.Order'
+        type: array
+    type: object
+  model.ApiGetOrdersResponse:
+    properties:
+      currentOrders:
+        items:
+          $ref: '#/definitions/model.Review'
+        type: array
+      pastOrders:
+        items:
+          $ref: '#/definitions/model.Review'
+        type: array
+    type: object
+  model.ApiMenuCreateRequest:
+    properties:
+      address:
+        example: 서울시 강남구 위메이드동 1212-202 101호
+        type: string
+      menuname:
+        example: 떡볶이
+        type: string
+      phone:
+        example: "01020221225"
+        type: string
+    type: object
+  model.ApiMenuCreateResponse:
+    properties:
+      주문번호:
+        example: 15
+        type: integer
+    type: object
+  model.ApiMenuListResponse:
+    properties:
+      menuList:
+        items:
+          $ref: '#/definitions/model.Menu'
+        type: array
+    type: object
+  model.ApiUpdateMenuRecommend:
+    properties:
+      menuList:
+        items:
+          $ref: '#/definitions/model.Menu'
+        type: array
+    type: object
+  model.ApiUpdateMenuRequest:
+    properties:
+      limitorder:
+        example: 300
+        type: integer
+      orderstatus:
+        example: false
+        type: boolean
+      origin:
+        example: 국내산
+        type: string
+      price:
+        example: 15000
+        type: integer
+      sprice:
+        type: integer
+    type: object
+  model.ApiUpdateOrderRequest:
+    properties:
+      menuname:
+        example: 우동
+        type: string
+    type: object
+  model.ApiUpdateOrderResponse:
+    properties:
+      message:
+        example: 해당 주문은 배달중입니다. 신규주문으로 처리되었습니다.
+        type: string
+      ordernumber:
+        example: 17
+        type: integer
+    type: object
+  model.ApiUpdateOrderStatusRequest:
+    properties:
+      status:
+        example: 0
+        type: integer
+    type: object
+  model.Failure:
+    properties:
+      message:
+        example: "false"
+        type: string
+    type: object
+  model.Menu:
+    properties:
+      _id:
+        example: 63a73a1c8d989838729bc114
+        type: string
+      createdat:
+        example: "2022-12-24T16:17:12.793+00:00"
+        type: string
+      grade:
+        example: 3.5
+        type: number
+      isdelete:
+        example: false
+        type: boolean
+      limitorder:
+        example: 100
+        type: integer
+      menuname:
+        example: 떡볶이
+        type: string
+      orderstatus:
+        example: true
+        type: boolean
+      origin:
+        example: 국내산
+        type: string
+      price:
+        example: 150000
+        type: integer
+      recommend:
+        example: true
+        type: boolean
+      reorder:
+        example: 30
+        type: integer
+      spice:
+        example: 3
+        type: integer
+    type: object
+  model.Order:
+    properties:
+      _id:
+        example: 63a73a1c8d989838729bc114
+        type: string
+      address:
+        example: 서울시 강남구 위메이드동 1212-202 101호
+        type: string
+      createdat:
+        example: "2022-12-24T16:17:12.793+00:00"
+        type: string
+      isdelete:
+        example: false
+        type: boolean
+      isexistreview:
+        example: false
+        type: boolean
+      menuname:
+        example: 떡볶이
+        type: string
+      ordernumber:
+        example: 11
+        type: integer
+      phone:
+        example: "01020221205"
+        type: string
+      status:
+        example: 0
+        type: integer
+    type: object
+  model.Review:
+    properties:
+      _id:
+        example: 63a73a1c8d989838729bc114
+        type: string
+      comment:
+        example: 맛있었습니다.
+        type: string
+      createdat:
+        example: "2022-12-24T17:42:53.949+00:00"
+        type: string
+      grade:
+        example: 5
+        type: number
+      isdelete:
+        example: false
+        type: boolean
+      menuname:
+        example: 떡볶이
+        type: string
+    required:
+    - comment
+    - grade
+    type: object
+  model.Success:
+    properties:
+      message:
+        example: success
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v01/orderer/detailMenu/{menuname}:
+    get:
+      consumes:
+      - application/json
+      description: 각 메뉴별 상세 정보를 조회합니다. 메뉴 이름을 받습니다. 해당 메뉴의 평점과 리뷰 리스트를 반환합니다.
+      parameters:
+      - description: Menu Name
+        in: path
+        name: menuname
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 메뉴 상세 조회 성공
+          schema:
+            $ref: '#/definitions/model.ApiGetMenuDetailResponse'
+        "400":
+          description: 메뉴 상세 조회 실패
+          schema:
+            $ref: '#/definitions/model.Failure'
+      summary: "\U0001F4A1API  메뉴 상세 조회"
+  /api/v01/orderer/menu/{sort}:
+    get:
+      consumes:
+      - application/json
+      description: 메뉴 리스트를 조회합니다. Path 로 정렬할 데이터를 받습니다. [recommend, grade, reorder,
+        createdat]
+      parameters:
+      - description: Sorting Parameter
+        in: path
+        name: sort
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 메뉴 리스트 조회 성공
+          schema:
+            $ref: '#/definitions/model.ApiMenuListResponse'
+        "400":
+          description: 조회 실패
+          schema:
+            $ref: '#/definitions/model.Failure'
+      summary: "\U0001F4A1API 메뉴 리스트 조회"
+  /api/v01/orderer/order:
+    post:
+      consumes:
+      - application/json
+      description: 새로운 주문을 생성합니다. json 포맷으로 요청합니다. 반환값은 주문번호 입니다.
+      parameters:
+      - description: 주문 생성 요청
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.ApiMenuCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 주문 생성 성공
+          schema:
+            $ref: '#/definitions/model.ApiMenuCreateResponse'
+        "400":
+          description: 주문 생성 실패
+          schema:
+            $ref: '#/definitions/model.Failure'
+      summary: "\U0001F4A1API 주문 생성 요청"
+  /api/v01/orderer/order/{orderId}/{flag}:
+    patch:
+      consumes:
+      - application/json
+      description: 주문한 메뉴를 변경 또는 추가 합니다. 주문ID, 추가 또는 변경의 Flag,  메뉴를 Body 로 받습니다. flag
+        가 0 일땐 메뉴 추가이며 배달중일 경우 신규주문으로 처리, 배달중이 아닐경우 성공을 반환합니다. flag 가 1일땐 메뉴 변경이며
+        조리중,배달중 일경우 실패, 아닐경우 성공을 반환합니다.
+      parameters:
+      - description: Order Id
+        in: path
+        name: orderId
+        required: true
+        type: string
+      - description: 'AddMenu : 0, UpdateMenu : 1'
+        in: path
+        name: flag
+        required: true
+        type: string
+      - description: 변경 또는 추가할 메뉴
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.ApiUpdateOrderRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 메뉴 추가 성공시
+          schema:
+            $ref: '#/definitions/model.Success'
+        "201":
+          description: 메뉴 추가 실패시 신규주문처리
+          schema:
+            $ref: '#/definitions/model.ApiUpdateOrderResponse'
+        "400":
+          description: 메뉴 변경 실패시
+          schema:
+            $ref: '#/definitions/model.Failure'
+      summary: "\U0001F4A1API 주문 변경 ( 메뉴 변경 및 추가 )"
+  /api/v01/orderer/orders:
+    get:
+      consumes:
+      - application/json
+      description: 주문 내역을 조회 합니다. 현재 주문과 주문이 완료된 이전 주문들을 반환합니다.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 주문 내역 조회 성공
+          schema:
+            $ref: '#/definitions/model.ApiGetOrdersResponse'
+        "400":
+          description: 주문 내역 조회 실패
+          schema:
+            $ref: '#/definitions/model.Failure'
+      summary: "\U0001F4A1API 주문 내역 조회"
+  /api/v01/orderer/review/{orderID}:
+    post:
+      consumes:
+      - application/json
+      description: 완료된 주문에 리뷰를 작성합니다. 해당 주문의 ID를 받습니다. 성공/실패 여부를 반환합니다.
+      parameters:
+      - description: Review ID
+        in: path
+        name: orderID
+        required: true
+        type: string
+      - description: 리뷰 생성 요청 Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.ApiCreateReviewRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 리뷰 작성 성공
+          schema:
+            $ref: '#/definitions/model.Success'
+        "400":
+          description: 리뷰 작성 실패
+          schema:
+            $ref: '#/definitions/model.Failure'
+      summary: "\U0001F4A1API 리뷰 작성 요청"
+  /api/v01/taker/menu:
+    delete:
+      consumes:
+      - application/json
+      description: 기존 메뉴 삭제 플래그를 변경(false -> true)합니다.
+      parameters:
+      - description: 메뉴 삭제 요청 Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.ApiUpdateOrderRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 메뉴 삭제 성공
+          schema:
+            $ref: '#/definitions/model.Success'
+        "400":
+          description: 메뉴 삭제 실패
+          schema:
+            $ref: '#/definitions/model.Failure'
+      summary: "\U0001F4A1API 기존 메뉴 삭제"
+    patch:
+      consumes:
+      - application/json
+      description: 추천 메뉴를 변경합니다. 요청한 메뉴가  금일 추천 메뉴라면 추천하지 않음으로, 추천 메뉴가 아니라면 추천 메뉴로
+        설정합니다. 응답으로 추천 메뉴들을 반환합니다.
+      parameters:
+      - description: 금일 추천 메뉴 변경 요청 Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.ApiUpdateOrderRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 추천 메뉴 변경 성공
+          schema:
+            $ref: '#/definitions/model.ApiUpdateMenuRecommend'
+        "400":
+          description: 추천 메뉴 변경 실패
+          schema:
+            $ref: '#/definitions/model.Failure'
+      summary: "\U0001F4A1API 금일 추천 메뉴 변경"
+    post:
+      consumes:
+      - application/json
+      description: 신규 메뉴를 생성합니다.
+      parameters:
+      - description: 메뉴 등록 요청 Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.ApiCreateMenuRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: 메뉴 생성 성공
+          schema:
+            $ref: '#/definitions/model.Success'
+        "400":
+          description: 메뉴 생성 실패(동일 메뉴이름이 존재)
+          schema:
+            $ref: '#/definitions/model.Failure'
+      summary: "\U0001F4A1API 신규 메뉴 등록"
+  /api/v01/taker/menu/{menuname}:
+    put:
+      consumes:
+      - application/json
+      description: 기존 메뉴를 수정합니다.
+      parameters:
+      - description: Menu Name
+        in: path
+        name: menuname
+        required: true
+        type: string
+      - description: 메뉴 수정 요청 Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.ApiUpdateMenuRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 메뉴 수정 성공
+          schema:
+            $ref: '#/definitions/model.Success'
+        "400":
+          description: 메뉴 수정 실패
+          schema:
+            $ref: '#/definitions/model.Failure'
+      summary: "\U0001F4A1API 기존 메뉴 수정"
+  /api/v01/taker/orders:
+    get:
+      consumes:
+      - application/json
+      description: 주문 리스트를 조회합니다. 주문 상태가 접수되기전 상태인 주문들만 조회합니다 (주문이 막 들어온 상태).
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 주문 조회 성공
+          schema:
+            $ref: '#/definitions/model.ApiGetOrderListResponse'
+        "400":
+          description: 주문 조회 실패
+          schema:
+            $ref: '#/definitions/model.Failure'
+      summary: "\U0001F4A1API 주문 리스트 조회"
+  /api/v01/taker/orders/{menuname}:
+    patch:
+      consumes:
+      - application/json
+      description: 각 메뉴별 주문들의 상태를 다음 단계로 변경합니다. 메뉴이름 과 현재 상태를 요청합니다. 해당 메뉴의 0(접수중)인
+        주문들을 1(접수완료) 상태로 업데이트 합니다.
+      parameters:
+      - description: 메뉴별 상태 업데이트 요청 Body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.ApiUpdateOrderStatusRequest'
+      - description: Menu Name
+        in: path
+        name: menuname
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 메뉴별 주문 상태 저장 성공
+          schema:
+            $ref: '#/definitions/model.Success'
+        "400":
+          description: 저장 실패
+          schema:
+            $ref: '#/definitions/model.Failure'
+      summary: "\U0001F4A1API  각 메뉴별 주문 상태 변경"
+swagger: "2.0"
