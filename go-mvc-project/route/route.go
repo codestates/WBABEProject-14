@@ -76,29 +76,32 @@ func (p *Router) Idx() *gin.Engine {
 	logger.Info("start server")
 	e.GET("/health")
 
-	//피주문자
-	taker := e.Group("api/v01/taker", liteAuth())
 	//swagger 핸들러 미들웨어에 등록
 	e.GET("/swagger/:any", ginSwg.WrapHandler(swgFiles.Handler))
 	docs.SwaggerInfo.Host = "localhost:8080" //swagger 정보 등록
+	docs.SwaggerInfo.Title = "띵동주문이요, 온라인 주문 시스템(Online Ordering System)"
+	docs.SwaggerInfo.Description = "주문자와 피주문자로 라우팅 하였습니다."
+	docs.SwaggerInfo.Version = "v01"
+	//피주문자
+	taker := e.Group("api/v01/taker", liteAuth())
 	{
-		taker.POST("/menu", p.tc.CreateMenu)           // 메뉴 생성
-		taker.PUT("/menu", p.tc.UpdateMenu)            // 메뉴 수정
-		taker.PATCH("/menu", p.tc.UpdateMenuRecommend) // 금일 추천 메뉴 변경
-		taker.DELETE("/menu", p.tc.DeleteMenu)         // 메뉴 삭제
-		taker.GET("/orders", p.tc.GetOrderList)        // 현재 주문내역 리스트 조회
-		//		taker.PATCH("/order", p.tc.UpdateOrderStatus)  // 주문별 상태 변경
+		taker.POST("/menu", p.tc.CreateMenu)                     // 메뉴 생성
+		taker.PUT("/menu/:menuname", p.tc.UpdateMenu)            // 메뉴 수정
+		taker.PATCH("/menu", p.tc.UpdateMenuRecommend)           // 금일 추천 메뉴 변경
+		taker.DELETE("/menu", p.tc.DeleteMenu)                   // 메뉴 삭제
+		taker.GET("/orders", p.tc.GetOrderList)                  // 현재 주문내역 리스트 조회
+		taker.PATCH("/orders/:menuname", p.tc.UpdateOrderStatus) // 주문별 상태 변경
 
 	}
 	//주문자
 	orderer := e.Group("api/v01/orderer", liteAuth())
 	{
-		orderer.GET("/menu/:sort", p.oc.GetAllOrder)         //메뉴 리스트 조회
-		orderer.POST("/order", p.oc.CreateOrder)             // 주문 생성
-		orderer.POST("/review/:objectId", p.oc.CreateReview) // 리뷰 생성
-		orderer.GET("/review/:menuname", p.oc.GetAllReiview) // 리뷰 조회
-		orderer.PATCH("/order/:id", p.oc.UpdateOrder)        // 주문 변경
-		orderer.GET("/orders", p.oc.GetOrders)               //주문 내역 조회
+		orderer.GET("/menu/:sort", p.oc.GetAllMenu)              // 메뉴 리스트 조회
+		orderer.POST("/order", p.oc.CreateOrder)                 // 주문 생성
+		orderer.POST("/review/:orderID", p.oc.CreateReview)      // 리뷰 생성
+		orderer.GET("/detailMenu/:menuname", p.oc.GetMenuDetail) // 메뉴 상세보기 (평점, 리뷰 조회)
+		orderer.PATCH("/order/:orderId/:flag", p.oc.UpdateOrder) // 주문 변경
+		orderer.GET("/orders", p.oc.GetOrders)                   // 주문 내역 조회
 	}
 	return e
 }
