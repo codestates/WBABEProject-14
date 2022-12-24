@@ -8,7 +8,6 @@ import (
 	"wba/go-mvc-procjet/model"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -31,20 +30,24 @@ func NewTakerService(mc *mongo.Collection, oc *mongo.Collection, ctx context.Con
 func (o *TakerServiceImpl) CreateMenu(menu *model.Menu) error {
 	/* 메뉴이름 중복 검사 */
 	var isExistMenu model.Menu
-	filter := bson.D{bson.E{Key: "menuname", Value: menu.MenuName}}
+	/* 삭제되지 않은 메뉴중 동일한 메뉴이름이 존재 */
+	filter := bson.M{"menuname": menu.MenuName, "isdelete": false}
 	o.menuCollection.FindOne(o.ctx, filter).Decode(&isExistMenu)
 	if len(isExistMenu.MenuName) > 0 {
 		fmt.Println(isExistMenu.MenuName)
 		return errors.New("동일한 메뉴 이름이 존재합니다")
 	}
+	menu.Grade = 0
+	menu.Reorder = 0
+	menu.IsDelete = false
 	menu.CreatedAt = time.Now()
 	_, err := o.menuCollection.InsertOne(o.ctx, menu)
 	return err
 }
 
 /* 메뉴 수정 */
-func (o *TakerServiceImpl) UpdateMenu(menu *model.Menu) error {
-	filter := bson.M{"menuname": menu.MenuName}
+func (o *TakerServiceImpl) UpdateMenu(menuname string, menu *model.Menu) error {
+	filter := bson.M{"menuname": menuname}
 	query := bson.M{
 		"$set": bson.M{
 			"price":       menu.Price,
@@ -52,9 +55,11 @@ func (o *TakerServiceImpl) UpdateMenu(menu *model.Menu) error {
 			"orderstatus": menu.OrderStatus,
 		},
 	}
-	_, err := o.menuCollection.UpdateOne(o.ctx, filter, query)
-
-	return err
+	result := o.menuCollection.FindOneAndUpdate(o.ctx, filter, query)
+	if result.Err() != nil {
+		return result.Err()
+	}
+	return nil
 }
 
 /* 메뉴 삭제 */
@@ -70,7 +75,7 @@ func (o *TakerServiceImpl) DeleteMenu(menu *model.Menu) error {
 }
 
 /* 금일 추천 메뉴 변경 */
-func (o *TakerServiceImpl) UpdateMenuRecommend(menu *model.Menu) error {
+func (o *TakerServiceImpl) UpdateMenuRecommend(menu *model.Menu) ([]*model.Menu, error) {
 	var result model.Menu
 	filter := bson.M{"menuname": menu.MenuName}
 	o.menuCollection.FindOne(o.ctx, filter).Decode(&result)
@@ -79,8 +84,19 @@ func (o *TakerServiceImpl) UpdateMenuRecommend(menu *model.Menu) error {
 			"recommend": !result.Recommend,
 		},
 	}
-	_, err := o.menuCollection.UpdateOne(o.ctx, filter, query)
-	return err
+	if _, err := o.menuCollection.UpdateOne(o.ctx, filter, query); err != nil {
+		return nil, err
+	}
+	recommend := bson.M{"recommend": true}
+	opts := options.Find().SetSort(bson.D{{Key: "createdat", Value: -1}}) //최신순으로
+
+	var recommendMenus []*model.Menu
+	if cursor, err := o.menuCollection.Find(o.ctx, recommend, opts); err != nil {
+		panic(err)
+	} else if err := cursor.All(o.ctx, &recommendMenus); err != nil {
+		panic(err)
+	}
+	return recommendMenus, nil
 }
 
 /* 현재 주문 내역 조회 */
@@ -91,28 +107,28 @@ func (o *TakerServiceImpl) GetOrderList() ([]*model.Order, error) {
 
 	var orderList []*model.Order
 
-	if corsur, err := o.orderCollection.Find(o.ctx, filter, opts); err != nil {
-		fmt.Println(err)
+	if cursor, err := o.orderCollection.Find(o.ctx, filter, opts); err != nil {
 		panic(err)
-	} else if err := corsur.All(o.ctx, &orderList); err != nil {
-		fmt.Println(err)
+	} else if err := cursor.All(o.ctx, &orderList); err != nil {
 		panic(err)
 	}
 	return orderList, nil
 }
 
-/* 주문별 상태 변경 */
-func (o *TakerServiceImpl) UpdateOrderStatus(id string, status int) error {
-	objId, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		panic(err)
+/* 각 메뉴별 주문 상태 변경 */
+func (o *TakerServiceImpl) UpdateOrderStatus(menuname string, status int) error {
+	/* 해당 메뉴의 주문들 다음단계로 상태 저장 */
+	if status > 4 || status < 0 {
+		return errors.New("잘못된 요청입니다")
 	}
+	filter := bson.M{"menuname": menuname, "status": status}
 	query := bson.M{
 		"$set": bson.M{
-			"status": status,
+			"status": status + 1,
 		},
 	}
-	if _, err := o.orderCollection.UpdateByID(o.ctx, objId, query); err != nil {
+
+	if _, err := o.orderCollection.UpdateMany(o.ctx, filter, query); err != nil {
 		return err
 	}
 	return nil
