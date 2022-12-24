@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"errors"
+	"fmt"
 	"time"
 	"wba/go-mvc-procjet/model"
 
@@ -36,7 +37,7 @@ func (o *OrdererServiceImpl) CreateOrder(order *model.Order) error {
 }
 
 /* 모든 메뉴 리스트 조회 */
-func (o *OrdererServiceImpl) GetAllOrder(sort string) ([]model.Menu, error) {
+func (o *OrdererServiceImpl) GetAllMenu(sort string) ([]model.Menu, error) {
 	//sort = [recommend, grade, reorder, createdat]
 
 	filter := bson.M{"isdelete": false}
@@ -95,7 +96,7 @@ func (o *OrdererServiceImpl) CreateReview(review *model.Review, id string) error
 	filter := bson.M{"_id": objId}
 	o.orderCollection.FindOne(o.ctx, filter).Decode(&order)
 
-	/* 예외처리 조건 : 주문 상태가 5 (배달완료) 가 아니거나 이미 리뷰가 존재하는 주문이라면 + */
+	/* 예외처리 조건 : 주문 상태가 5 (배달완료) 가 아니거나 이미 리뷰가 존재하는 주문이라면 */
 	if order.IsExistReview || order.Status != 5 {
 		return errors.New("리뷰를 작성할 수 없습니다")
 	}
@@ -111,7 +112,9 @@ func (o *OrdererServiceImpl) CreateReview(review *model.Review, id string) error
 			"isexistreview": true,
 		},
 	}
-	_, err := o.orderCollection.UpdateByID(o.ctx, objId, query)
+	if _, err := o.orderCollection.UpdateByID(o.ctx, objId, query); err != nil {
+		panic(err)
+	}
 
 	/* 메뉴 평점 업데이트 */
 	groupStage := bson.D{
@@ -141,4 +144,55 @@ func (o *OrdererServiceImpl) CreateReview(review *model.Review, id string) error
 	o.menuCollection.FindOneAndUpdate(o.ctx, bson.M{"menuname": review.MenuName}, query)
 
 	return err
+}
+
+/* 메뉴 변경 */
+func (o *OrdererServiceImpl) UpdateOrder(id string, menuname string) error {
+	objid, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		panic(err)
+	}
+	filter := bson.M{"_id": objid}
+	/* 해당 주문 상태 가져오기 */
+	var or model.Order
+	o.orderCollection.FindOne(o.ctx, filter).Decode(&or)
+	if or.Status == 3 {
+		return errors.New("해당 주문은 조리중입니다")
+	} else if or.Status == 4 {
+		return errors.New("해당 주문은 배달중입니다")
+	}
+	query := bson.M{
+		"$set": bson.M{
+			"menuname": menuname,
+		},
+	}
+	result, error := o.orderCollection.UpdateByID(o.ctx, objid, query)
+	fmt.Println(&result)
+	return error
+}
+
+/* 주문 내역 조회 */
+func (o *OrdererServiceImpl) GetOrders() ([]model.Order, []model.Order, error) {
+
+	filter := bson.M{}
+	opts := options.Find().SetSort(bson.D{{Key: "createdat", Value: -1}})
+
+	var currentOrders []model.Order
+	var pastOrders []model.Order
+	cursor, err := o.orderCollection.Find(o.ctx, filter, opts)
+	if err != nil {
+		panic(err)
+	}
+	for cursor.Next(o.ctx) {
+		var result model.Order
+		if err := cursor.Decode(&result); err != nil {
+			panic(err)
+		}
+		if result.Status == 5 { // 배달완료된 이전 주문들
+			pastOrders = append(pastOrders, result)
+		} else { //현재 주문들
+			currentOrders = append(currentOrders, result)
+		}
+	}
+	return currentOrders, pastOrders, nil
 }
