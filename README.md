@@ -131,7 +131,7 @@ http://localhost:8080/swagger/index.html#/
   "orderstatus": false,
   "origin": "국내산",
   "price": 15000,
-  "sprice": 0
+  "spice": 0
 }
 ```
 
@@ -152,7 +152,7 @@ http://localhost:8080/swagger/index.html#/
   "orderstatus": false,
   "origin": "국내산",
   "price": 5500,
-  "sprice": 0
+  "spice": 0
 }
 ```
 ### Response 
