@@ -57,7 +57,7 @@ type ApiCreateMenuRequest struct {
 	LimitOrder  int    `json:"limitorder" example:"300"`
 	Origin      string `json:"origin" example:"국내산"`
 	Price       int    `json:"price" example:"15000"`
-	Spice       int    `json:"sprice" exampel:"3"`
+	Spice       int    `json:"spice" exampel:"3"`
 }
 
 /* 메뉴  변경 요청 Body */
@@ -66,7 +66,7 @@ type ApiUpdateMenuRequest struct {
 	LimitOrder  int    `json:"limitorder" example:"300"`
 	Origin      string `json:"origin" example:"국내산"`
 	Price       int    `json:"price" example:"15000"`
-	Spice       int    `json:"sprice" exampel:"3"`
+	Spice       int    `json:"spice" exampel:"3"`
 }
 
 /* 추천 메뉴 변경후 응답 */
