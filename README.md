@@ -35,13 +35,13 @@
 3. 주문자는 신뢰있는 주문과 배달까지를 원합니다. 또, 피주문자는 주문내역을 관리하고 원할한 서비스가 제공되어야 합니다.
 
 ### 사용법
-```
+```bash
 $ docker start mongodb
 
 $ git clone https://github.com/codestates/WBABEProject-14.git
 $ cd go-mvc-project/
 $ go mod tidy
-$ go run main.go
+> go run main.go
 ```
 
 ### 개발 환경
