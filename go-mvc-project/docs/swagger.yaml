@@ -49,11 +49,11 @@ definitions:
     properties:
       currentOrders:
         items:
-          $ref: '#/definitions/model.Review'
+          $ref: '#/definitions/model.Order'
         type: array
       pastOrders:
         items:
-          $ref: '#/definitions/model.Review'
+          $ref: '#/definitions/model.Order'
         type: array
     type: object
   model.ApiMenuCreateRequest:

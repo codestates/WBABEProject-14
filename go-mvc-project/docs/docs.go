@@ -546,13 +546,13 @@ const docTemplate = `{
                 "currentOrders": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.Review"
+                        "$ref": "#/definitions/model.Order"
                     }
                 },
                 "pastOrders": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.Review"
+                        "$ref": "#/definitions/model.Order"
                     }
                 }
             }
