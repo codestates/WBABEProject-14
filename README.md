@@ -102,6 +102,16 @@ $ go mod tidy
 
 ### API 명세서
 
+<details>
+<summary>📋 Swagger 스크린샷 보기</summary>
+<div markdown="1">
+
+<img src="https://user-images.githubusercontent.com/103496262/209471052-fb6d1d6b-bcc5-4895-aa21-a392b123db7e.png"/>
+
+</div>
+</details>
+
+
 ```
 프로젝트 실행후 아래 도메인 으로 접속 
 http://localhost:8080/swagger/index.html#/ 
