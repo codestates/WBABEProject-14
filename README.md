@@ -122,7 +122,7 @@ http://localhost:8080/swagger/index.html#/
   "origin": "국내산",
   "price": 15000,
   "sprice": 0
-}'
+}
 ```
 
 ### Response
