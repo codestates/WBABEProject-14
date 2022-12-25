@@ -140,7 +140,7 @@ func (o *OrdererServiceImpl) CreateReview(review *model.Review, orderId string) 
 	}
 	o.menuCollection.FindOneAndUpdate(o.ctx, bson.M{"menuname": review.MenuName}, query)
 
-	return err
+	return nil
 }
 
 /* 메뉴 변경 */
