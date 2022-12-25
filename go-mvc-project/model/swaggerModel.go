@@ -39,8 +39,8 @@ type ApiUpdateOrderResponse struct {
 
 /* 주문 내역 조회 */
 type ApiGetOrdersResponse struct {
-	CurrentOrders []Review
-	PastOrders    []Review
+	CurrentOrders []Order
+	PastOrders    []Order
 }
 
 /* 리뷰 작성 요청 Body */
