@@ -227,9 +227,9 @@ PATCH /api/v01/taker/menu
 ## 현재 주문내역 조회 
 [func GetOrderList()](https://github.com/codestates/WBABEProject-14/blob/444bbb6ec3a2690a55dc284f948745caca543974/go-mvc-project/services/taker.service.impl.go#L102-L116)
 
-```bash
-GET /api/v01/taker/orders
-```
+
+`GET /api/v01/taker/orders`
+
 ### Request
 ### Response 
 ```json
@@ -264,7 +264,7 @@ GET /api/v01/taker/orders
 ## 메뉴별 주문요청 상태 변경
 [UpdateOrderStatus](https://github.com/codestates/WBABEProject-14/blob/444bbb6ec3a2690a55dc284f948745caca543974/go-mvc-project/services/taker.service.impl.go#L118-L135)
 
-`[/api/v01/taker/orders/{menuname}`
+`PATCH /api/v01/taker/orders/{menuname}`
 ### Request
 ```json
 {
