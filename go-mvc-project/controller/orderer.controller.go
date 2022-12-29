@@ -42,6 +42,9 @@ func (oc *OrdererController) CreateOrder(ctx *gin.Context) {
 		return
 	}
 	/* RETURN */
+	/*
+	생성의 경우 일반적으로 201 created를 리턴하는데, 이런 기본적인 부분을 잘 지켜주신 코드 굉장히 좋습니다.
+	*/
 	ctx.JSON(http.StatusCreated, gin.H{"주문번호": orderNumber})
 }
 
@@ -89,6 +92,9 @@ func (oc *OrdererController) CreateReview(ctx *gin.Context) {
 		return
 	}
 	/* RETURN */
+	/*
+	위의 주석과 달리 200 ok를 리턴하고 있습니다.
+	*/
 	ctx.JSON(http.StatusOK, model.Success{Message: "success"})
 }
 
