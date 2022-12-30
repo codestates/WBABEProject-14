@@ -28,6 +28,13 @@ func NewTakerService(mc *mongo.Collection, oc *mongo.Collection, ctx context.Con
 
 /* 메뉴 등록 */
 func (o *TakerServiceImpl) CreateMenu(menu *model.Menu) error {
+	/*
+	각 가게별로 메뉴 이름은 중복될 수 있습니다. 그런 경우에는 어떻게 처리해야 할까요?
+	e.g. A 가게의 김치찌개, B 가게의 김치찌개
+
+	유니크함을 보장하기 위해서라면 다른 값을 활용하시는 것이 좋아보입니다. (MenuId와 같은)
+	*/
+
 	/* 메뉴이름 중복 검사 */
 	var isExistMenu model.Menu
 	/* 삭제되지 않은 메뉴중 동일한 메뉴이름이 존재 */
