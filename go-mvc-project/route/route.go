@@ -28,8 +28,8 @@ func NewRouter(orc *ctl.OrdererController, trc *ctl.TakerController) (*Router, e
 func CORS() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		/*
-		CORS 허용을 위해서 모든 도메인을 허용한다면 보안에 이슈가 생깁니다. 
-		보통 운영되는 시스템의 경우는 특정한 도메인만을 허용하고 그 이외의 요청은 거부하도록 설정합니다.
+			CORS 허용을 위해서 모든 도메인을 허용한다면 보안에 이슈가 생깁니다.
+			보통 운영되는 시스템의 경우는 특정한 도메인만을 허용하고 그 이외의 요청은 거부하도록 설정합니다.
 		*/
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -71,13 +71,11 @@ func (p *Router) Idx() *gin.Engine {
 
 	e := gin.Default()
 	/*
-	사용하지 않는 코드는 지워주시는 것이 추후에 작업할 때 헷갈리지 않습니다. 
-	이러한 코드를 주석처리해두면, 추후 다른 작업자(미래의 자신 포함)가 의문을 가질수 있고 이는 곧 생산성의 저하로 이루어집니다.
-	히스토리 추적은 git을 이용하면 충분합니다.
+		사용하지 않는 코드는 지워주시는 것이 추후에 작업할 때 헷갈리지 않습니다.
+		이러한 코드를 주석처리해두면, 추후 다른 작업자(미래의 자신 포함)가 의문을 가질수 있고 이는 곧 생산성의 저하로 이루어집니다.
+		히스토리 추적은 git을 이용하면 충분합니다.
 	*/
-	// e.Use(gin.Logger())
-	// e.Use(gin.Recovery())
-	// 기존의 logger, recovery 대신 logger에서 선언한 미들웨어 사용
+
 	e.Use(logger.GinLogger())
 	e.Use(logger.GinRecovery(true))
 	e.Use(CORS())
@@ -93,21 +91,21 @@ func (p *Router) Idx() *gin.Engine {
 	docs.SwaggerInfo.Version = "v01"
 
 	/*
-	엔드포인트 구성에 대해서 전반적인 코멘트 드립니다.
-	1. REST API의 성숙도 모델에 대해서 공부해보시면 좋을 것 같습니다.
-	
-	2. 일반적으로 HTTP URI에 deatil와 같은 단어는 들어가지 않습니다. 
-		복수형의 단어로 구성을 하고, 동일한 URI 내에서 http method만 변경하여 행위를 표현하는 것이 일반적인 REST API의 구성 방식입니다.
-		e.g.
-		GET v1/orders -> 주문 목록을 조회.
-		GET v1/orders/1 -> 1번 주문를 조회.
-		POST v1/orders -> 주문를 생성.
-		PATCH v1/orders/1 -> 1번 주문에 대해서 업데이트
-		DELETE v1/orders/1 -> 1번 주문에 대해서 삭제
+		엔드포인트 구성에 대해서 전반적인 코멘트 드립니다.
+		1. REST API의 성숙도 모델에 대해서 공부해보시면 좋을 것 같습니다.
+
+		2. 일반적으로 HTTP URI에 deatil와 같은 단어는 들어가지 않습니다.
+			복수형의 단어로 구성을 하고, 동일한 URI 내에서 http method만 변경하여 행위를 표현하는 것이 일반적인 REST API의 구성 방식입니다.
+			e.g.
+			GET v1/orders -> 주문 목록을 조회.
+			GET v1/orders/1 -> 1번 주문를 조회.
+			POST v1/orders -> 주문를 생성.
+			PATCH v1/orders/1 -> 1번 주문에 대해서 업데이트
+			DELETE v1/orders/1 -> 1번 주문에 대해서 삭제
 	*/
 
 	/*
-	그룹으로 통해 엔드포인트를 나누어서 코드를 보기에 용이합니다. 좋은 코드입니다.
+		그룹으로 통해 엔드포인트를 나누어서 코드를 보기에 용이합니다. 좋은 코드입니다.
 	*/
 	//피주문자
 	taker := e.Group("api/v01/taker", liteAuth())
@@ -128,8 +126,8 @@ func (p *Router) Idx() *gin.Engine {
 		orderer.POST("/review/:orderID", p.oc.CreateReview)      // 리뷰 생성
 		orderer.GET("/detailMenu/:menuname", p.oc.GetMenuDetail) // 메뉴 상세보기 (평점, 리뷰 조회)
 		/*
-		메뉴 추가, 변경과 같은 것을 구분하기 위해선 일반적으로 쿼리스트링을 통해 받아와 사용합니다.
-		혹은, 메뉴 추가와 변경에 대한 엔드포인트를 각각 생성하는 방법도 있겠습니다.
+			메뉴 추가, 변경과 같은 것을 구분하기 위해선 일반적으로 쿼리스트링을 통해 받아와 사용합니다.
+			혹은, 메뉴 추가와 변경에 대한 엔드포인트를 각각 생성하는 방법도 있겠습니다.
 		*/
 		orderer.PATCH("/order/:orderId/:flag", p.oc.UpdateOrder) // 주문 변경
 		orderer.GET("/orders", p.oc.GetOrders)                   // 주문 내역 조회
