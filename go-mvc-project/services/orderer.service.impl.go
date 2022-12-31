@@ -203,14 +203,8 @@ func (o *OrdererServiceImplement) UpdateOrder(id string, flag int, menuname stri
 			변경할 수 없는 경우를 하나의 메시지로 처리하는 것은 어떤가요?
 			여러 케이스로 세분화 하는 것 보다는, 주문을 변경할 수 없는 상황이라면 하나의 메시지로 전달해도 무방해보이고, 코드도 깔끔해질 것 같습니다.
 		*/
-		if or.Status == 3 {
-			return -1, errors.New("해당 주문은 조리중입니다")
-		} else if or.Status == 4 {
-			return -1, errors.New("해당 주문은 배달중입니다")
-		} else if or.Status == 5 {
-			return -1, errors.New("배달이 완료된 주문입니다 ")
-		} else if or.MenuName == menuname {
-			return -1, errors.New("동일한 메뉴로 변경할 수 없습니다")
+		if or.Status >= model.OrderCancel && or.Status <= model.Complete || or.MenuName == menuname {
+			return -1, errors.New("주문을 변경할 수 없습니다")
 		} else {
 			/* 메뉴 변경 성공 */
 			query := bson.M{
