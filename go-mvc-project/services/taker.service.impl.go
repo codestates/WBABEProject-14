@@ -12,14 +12,14 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type TakerServiceImpl struct {
+type TakerServiceImplement struct {
 	menuCollection  *mongo.Collection
 	orderCollection *mongo.Collection
 	ctx             context.Context
 }
 
 func NewTakerService(mc *mongo.Collection, oc *mongo.Collection, ctx context.Context) (TakerService, error) {
-	return &TakerServiceImpl{
+	return &TakerServiceImplement{
 		menuCollection:  mc,
 		orderCollection: oc,
 		ctx:             ctx,
@@ -27,12 +27,12 @@ func NewTakerService(mc *mongo.Collection, oc *mongo.Collection, ctx context.Con
 }
 
 /* 메뉴 등록 */
-func (o *TakerServiceImpl) CreateMenu(menu *model.Menu) error {
+func (o *TakerServiceImplement) CreateMenu(menu *model.Menu) error {
 	/*
-	각 가게별로 메뉴 이름은 중복될 수 있습니다. 그런 경우에는 어떻게 처리해야 할까요?
-	e.g. A 가게의 김치찌개, B 가게의 김치찌개
+		각 가게별로 메뉴 이름은 중복될 수 있습니다. 그런 경우에는 어떻게 처리해야 할까요?
+		e.g. A 가게의 김치찌개, B 가게의 김치찌개
 
-	유니크함을 보장하기 위해서라면 다른 값을 활용하시는 것이 좋아보입니다. (MenuId와 같은)
+		유니크함을 보장하기 위해서라면 다른 값을 활용하시는 것이 좋아보입니다. (MenuId와 같은)
 	*/
 
 	/* 메뉴이름 중복 검사 */
@@ -53,7 +53,7 @@ func (o *TakerServiceImpl) CreateMenu(menu *model.Menu) error {
 }
 
 /* 메뉴 수정 */
-func (o *TakerServiceImpl) UpdateMenu(menuname string, menu *model.Menu) error {
+func (o *TakerServiceImplement) UpdateMenu(menuname string, menu *model.Menu) error {
 	filter := bson.M{"menuname": menuname}
 	query := bson.M{
 		"$set": bson.M{
@@ -70,7 +70,7 @@ func (o *TakerServiceImpl) UpdateMenu(menuname string, menu *model.Menu) error {
 }
 
 /* 메뉴 삭제 */
-func (o *TakerServiceImpl) DeleteMenu(menu *model.Menu) error {
+func (o *TakerServiceImplement) DeleteMenu(menu *model.Menu) error {
 	filter := bson.M{"menuname": menu.MenuName}
 	query := bson.M{
 		"$set": bson.M{
@@ -82,7 +82,7 @@ func (o *TakerServiceImpl) DeleteMenu(menu *model.Menu) error {
 }
 
 /* 금일 추천 메뉴 변경 */
-func (o *TakerServiceImpl) UpdateMenuRecommend(menu *model.Menu) ([]*model.Menu, error) {
+func (o *TakerServiceImplement) UpdateMenuRecommend(menu *model.Menu) ([]*model.Menu, error) {
 	var result model.Menu
 	filter := bson.M{"menuname": menu.MenuName}
 	o.menuCollection.FindOne(o.ctx, filter).Decode(&result)
@@ -107,7 +107,7 @@ func (o *TakerServiceImpl) UpdateMenuRecommend(menu *model.Menu) ([]*model.Menu,
 }
 
 /* 현재 주문 내역 조회 */
-func (o *TakerServiceImpl) GetOrderList() ([]*model.Order, error) {
+func (o *TakerServiceImplement) GetOrderList() ([]*model.Order, error) {
 
 	filter := bson.M{"status": 0}                                         //접수중인 주문만
 	opts := options.Find().SetSort(bson.D{{Key: "createdat", Value: -1}}) //최신순으로
@@ -123,9 +123,9 @@ func (o *TakerServiceImpl) GetOrderList() ([]*model.Order, error) {
 }
 
 /* 각 메뉴별 주문 상태 변경 */
-func (o *TakerServiceImpl) UpdateOrderStatus(menuname string, status int) error {
+func (o *TakerServiceImplement) UpdateOrderStatus(menuname string, status model.Status) error {
 	/* 해당 메뉴의 주문들 다음단계로 상태 저장 */
-	if status > 4 || status < 0 {
+	if status > model.Delivering || status < model.Ordering {
 		return errors.New("잘못된 요청입니다")
 	}
 	filter := bson.M{"menuname": menuname, "status": status}

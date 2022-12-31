@@ -16,7 +16,7 @@ import (
 /*
 네이밍이 직관적이지 못해 보입니다. Impl은 무엇을 의미하나요?
 */
-type OrdererServiceImpl struct {
+type OrdererServiceImplement struct {
 	orderCollection  *mongo.Collection
 	reviewCollection *mongo.Collection
 	menuCollection   *mongo.Collection
@@ -24,7 +24,7 @@ type OrdererServiceImpl struct {
 }
 
 func NewOrdererService(mc *mongo.Collection, oc *mongo.Collection, rc *mongo.Collection, ctx context.Context) (OrdererService, error) {
-	return &OrdererServiceImpl{
+	return &OrdererServiceImplement{
 		menuCollection:   mc,
 		orderCollection:  oc,
 		reviewCollection: rc,
@@ -33,7 +33,7 @@ func NewOrdererService(mc *mongo.Collection, oc *mongo.Collection, rc *mongo.Col
 }
 
 /* 주문 생성 */
-func (o *OrdererServiceImpl) CreateOrder(order *model.Order) (int, error) {
+func (o *OrdererServiceImplement) CreateOrder(order *model.Order) (int, error) {
 	/* 메뉴 추가로 인한 신규주문 체크 (ObjectId 가 생성된 채로 넘어오는지)*/
 	if order.ID != primitive.NilObjectID {
 		order.ID = primitive.NewObjectID()
@@ -45,7 +45,7 @@ func (o *OrdererServiceImpl) CreateOrder(order *model.Order) (int, error) {
 
 	/* 일련번호 - 오늘 날짜 기준  ( 🔥 UTC 한국날짜 기준 -9 시간 생각하기 ) */
 	/*
-	하루를 빼는 이유는 무엇인가요? UTC와 한국시간의 차이라면 9시간을 더하거나 뺴주어야 할 것 같습니다.
+		하루를 빼는 이유는 무엇인가요? UTC와 한국시간의 차이라면 9시간을 더하거나 뺴주어야 할 것 같습니다.
 	*/
 	standard := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()-1, 0, 00, 00, 0, time.UTC)
 	findQuery := bson.M{"createdat": bson.M{"$gte": standard, "$lt": order.CreatedAt}}
@@ -61,7 +61,7 @@ func (o *OrdererServiceImpl) CreateOrder(order *model.Order) (int, error) {
 }
 
 /* 모든 메뉴 리스트 조회 */
-func (o *OrdererServiceImpl) GetAllMenu(sort string) ([]model.Menu, error) {
+func (o *OrdererServiceImplement) GetAllMenu(sort string) ([]model.Menu, error) {
 	//sort = [recommend, grade, reorder, createdat]
 
 	filter := bson.M{"isdelete": false}
@@ -78,7 +78,7 @@ func (o *OrdererServiceImpl) GetAllMenu(sort string) ([]model.Menu, error) {
 }
 
 /* 특정 메뉴에 대한 리뷰들 조회 */
-func (o *OrdererServiceImpl) GetAllReiview(menuName string) (float64, []model.Review, error) {
+func (o *OrdererServiceImplement) GetAllReiview(menuName string) (float64, []model.Review, error) {
 
 	filter := bson.M{"menuname": menuName, "isdelete": false}
 	var reivewlist []model.Review
@@ -94,7 +94,7 @@ func (o *OrdererServiceImpl) GetAllReiview(menuName string) (float64, []model.Re
 }
 
 /* 리뷰 작성 */
-func (o *OrdererServiceImpl) CreateReview(review *model.Review, orderId string) error {
+func (o *OrdererServiceImplement) CreateReview(review *model.Review, orderId string) error {
 	var order model.Order
 	objId, _ := primitive.ObjectIDFromHex(orderId)
 	filter := bson.M{"_id": objId}
@@ -102,8 +102,8 @@ func (o *OrdererServiceImpl) CreateReview(review *model.Review, orderId string) 
 	/* 예외처리 조건 : 주문 상태가 5(배달완료)가 아니거나 이미 리뷰가 존재하는 주문이라면 */
 
 	/*
-	모델에서도 언급하였지만 Status 처럼 여러 상태값을 가지는 경우에는 일반적으로 Enum을 활용하는 편이 
-	가독성 측면에서 좋습니다. 현재와 같은 경우 5번이 무엇인지를 의미하는데 알기가 힘듭니다.
+		모델에서도 언급하였지만 Status 처럼 여러 상태값을 가지는 경우에는 일반적으로 Enum을 활용하는 편이
+		가독성 측면에서 좋습니다. 현재와 같은 경우 5번이 무엇인지를 의미하는데 알기가 힘듭니다.
 	*/
 	if order.IsExistReview || order.Status != 5 {
 		return errors.New("리뷰를 작성할 수 없습니다")
@@ -155,7 +155,7 @@ func (o *OrdererServiceImpl) CreateReview(review *model.Review, orderId string) 
 }
 
 /* 메뉴 변경 */
-func (o *OrdererServiceImpl) UpdateOrder(id string, flag int, menuname string) (int, error) {
+func (o *OrdererServiceImplement) UpdateOrder(id string, flag int, menuname string) (int, error) {
 	objid, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		panic(err)
@@ -166,8 +166,8 @@ func (o *OrdererServiceImpl) UpdateOrder(id string, flag int, menuname string) (
 	o.orderCollection.FindOne(o.ctx, filter).Decode(&or)
 
 	/*
-	코드가 많이 길어지는 경우, 관련 로직만을 모아 따로 함수로 분리하는 것을 추천드립니다. 가독성이 매우 높아지고, 테스트를 작성하기에도 쉬워집니다.
-	메뉴 추가에 대한 함수, 메뉴 변경에 대한 함수로 분리할 수 있겠습니다.
+		코드가 많이 길어지는 경우, 관련 로직만을 모아 따로 함수로 분리하는 것을 추천드립니다. 가독성이 매우 높아지고, 테스트를 작성하기에도 쉬워집니다.
+		메뉴 추가에 대한 함수, 메뉴 변경에 대한 함수로 분리할 수 있겠습니다.
 	*/
 	/* 메뉴 추가 */
 	if flag == 0 {
@@ -200,8 +200,8 @@ func (o *OrdererServiceImpl) UpdateOrder(id string, flag int, menuname string) (
 	} else if flag == 1 {
 		/* 조리중 배달중 배달완료 에러처리 */
 		/*
-		변경할 수 없는 경우를 하나의 메시지로 처리하는 것은 어떤가요?
-		여러 케이스로 세분화 하는 것 보다는, 주문을 변경할 수 없는 상황이라면 하나의 메시지로 전달해도 무방해보이고, 코드도 깔끔해질 것 같습니다.
+			변경할 수 없는 경우를 하나의 메시지로 처리하는 것은 어떤가요?
+			여러 케이스로 세분화 하는 것 보다는, 주문을 변경할 수 없는 상황이라면 하나의 메시지로 전달해도 무방해보이고, 코드도 깔끔해질 것 같습니다.
 		*/
 		if or.Status == 3 {
 			return -1, errors.New("해당 주문은 조리중입니다")
@@ -230,7 +230,7 @@ func (o *OrdererServiceImpl) UpdateOrder(id string, flag int, menuname string) (
 }
 
 /* 주문 내역 조회 */
-func (o *OrdererServiceImpl) GetOrders() ([]model.Order, []model.Order, error) {
+func (o *OrdererServiceImplement) GetOrders() ([]model.Order, []model.Order, error) {
 
 	filter := bson.M{}
 	opts := options.Find().SetSort(bson.D{{Key: "createdat", Value: -1}})
