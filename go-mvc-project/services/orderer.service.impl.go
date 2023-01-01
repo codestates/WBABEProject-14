@@ -47,7 +47,7 @@ func (o *OrdererServiceImplement) CreateOrder(order *model.Order) (int, error) {
 	/*
 		하루를 빼는 이유는 무엇인가요? UTC와 한국시간의 차이라면 9시간을 더하거나 뺴주어야 할 것 같습니다.
 	*/
-	standard := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()-1, 0, 00, 00, 0, time.UTC)
+	standard := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), time.Now().Hour()-9, 00, 00, 0, time.UTC)
 	findQuery := bson.M{"createdat": bson.M{"$gte": standard, "$lt": order.CreatedAt}}
 
 	orderNumber, countErr := o.orderCollection.CountDocuments(o.ctx, findQuery)
