@@ -350,7 +350,7 @@ PATCH /api/v01/taker/menu
 [func UpdateOrder()](https://github.com/codestates/WBABEProject-14/blob/444bbb6ec3a2690a55dc284f948745caca543974/go-mvc-project/services/orderer.service.impl.go#L146-L211)
 
 ### Request 
-`PATCH /api/v01/orderer/order/{orderId}/{flag}`
+`PATCH /api/v01/orderer/order/{orderId}?flag={0,1}`
 ```json
 {
   "menuname": "우동"
