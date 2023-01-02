@@ -172,53 +172,10 @@ func (o *OrdererServiceImplement) UpdateOrder(id string, flag int, menuname stri
 	*/
 	/* 메뉴 추가 */
 	if flag == 0 {
-		/* 배달중일경우 */
-		if or.Status == 4 {
-			/* 신규 주문으로 처리 */
-			or.MenuName = menuname
-			or.CreatedAt = time.Now()
-			if orderNumber, err := o.CreateOrder(&or); err != nil {
-				return -1, errors.New("메뉴 추가에 실패하였습니다. 다시 시도해주세요")
-			} else {
-				return orderNumber, nil
-			}
-		} else {
-			/* 메뉴 추가 성공 */
-			str_slices := []string{or.MenuName, menuname}
-			menunames := strings.Join(str_slices, ",")
-			query := bson.M{
-				"$set": bson.M{
-					"menuname": menunames,
-				},
-			}
-			if _, err := o.orderCollection.UpdateByID(o.ctx, objid, query); err != nil {
-				return -1, err
-			} else {
-				return -1, nil
-			}
-		}
+		return o.AddMenu(&or, menuname)
 		/* 메뉴 변경 */
 	} else if flag == 1 {
-		/* 조리중 배달중 배달완료 에러처리 */
-		/*
-			변경할 수 없는 경우를 하나의 메시지로 처리하는 것은 어떤가요?
-			여러 케이스로 세분화 하는 것 보다는, 주문을 변경할 수 없는 상황이라면 하나의 메시지로 전달해도 무방해보이고, 코드도 깔끔해질 것 같습니다.
-		*/
-		if or.Status >= model.OrderCancel && or.Status <= model.Complete || or.MenuName == menuname {
-			return -1, errors.New("주문을 변경할 수 없습니다")
-		} else {
-			/* 메뉴 변경 성공 */
-			query := bson.M{
-				"$set": bson.M{
-					"menuname": menuname,
-				},
-			}
-			if _, err := o.orderCollection.UpdateByID(o.ctx, objid, query); err != nil {
-				return -1, err
-			} else {
-				return -1, nil
-			}
-		}
+		return o.ChangeMenu(&or, menuname)
 	} else {
 		return -1, errors.New("잘못된 요청")
 	}
@@ -248,4 +205,59 @@ func (o *OrdererServiceImplement) GetOrders() ([]model.Order, []model.Order, err
 		}
 	}
 	return currentOrders, pastOrders, nil
+}
+
+/* 메뉴 추가 */
+func (o *OrdererServiceImplement) AddMenu(or *model.Order, menuname string) (int, error) {
+	/* 배달중일경우 */
+	if or.Status == 4 {
+		/* 신규 주문으로 처리 */
+		or.MenuName = menuname
+		or.CreatedAt = time.Now()
+		if orderNumber, err := o.CreateOrder(or); err != nil {
+			return -1, errors.New("메뉴 추가에 실패하였습니다. 다시 시도해주세요")
+		} else {
+			return orderNumber, nil
+		}
+	} else {
+		/* 메뉴 추가 성공 */
+		str_slices := []string{or.MenuName, menuname}
+		menunames := strings.Join(str_slices, ",")
+		query := bson.M{
+			"$set": bson.M{
+				"menuname":  menunames,
+				"updatedat": time.Now(),
+			},
+		}
+		if _, err := o.orderCollection.UpdateByID(o.ctx, or.ID, query); err != nil {
+			return -1, err
+		} else {
+			return -1, nil
+		}
+	}
+}
+
+/* 메뉴 변경 */
+func (o *OrdererServiceImplement) ChangeMenu(or *model.Order, menuname string) (int, error) {
+	/* 조리중 배달중 배달완료 에러처리 */
+	/*
+		변경할 수 없는 경우를 하나의 메시지로 처리하는 것은 어떤가요?
+		여러 케이스로 세분화 하는 것 보다는, 주문을 변경할 수 없는 상황이라면 하나의 메시지로 전달해도 무방해보이고, 코드도 깔끔해질 것 같습니다.
+	*/
+	if or.Status >= model.OrderCancel && or.Status <= model.Complete || or.MenuName == menuname {
+		return -1, errors.New("주문을 변경할 수 없습니다")
+	} else {
+		/* 메뉴 변경 성공 */
+		query := bson.M{
+			"$set": bson.M{
+				"menuname":  menuname,
+				"updatedat": time.Now(),
+			},
+		}
+		if _, err := o.orderCollection.UpdateByID(o.ctx, or.ID, query); err != nil {
+			return -1, err
+		} else {
+			return -1, nil
+		}
+	}
 }
