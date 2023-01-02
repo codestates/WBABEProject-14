@@ -65,8 +65,6 @@ func liteAuth() gin.HandlerFunc {
 }
 
 func (p *Router) Idx() *gin.Engine {
-	// 컨피그나 상황에 맞게 gin 모드 설정
-	//gin.SetMode(gin.ReleaseMode)
 	gin.SetMode(gin.DebugMode)
 
 	e := gin.Default()
@@ -121,10 +119,10 @@ func (p *Router) Idx() *gin.Engine {
 	//주문자
 	orderer := e.Group("api/v01/orderer", liteAuth())
 	{
-		orderer.GET("/menu/:sort", p.oc.GetAllMenu)              // 메뉴 리스트 조회
-		orderer.POST("/order", p.oc.CreateOrder)                 // 주문 생성
-		orderer.POST("/review/:orderID", p.oc.CreateReview)      // 리뷰 생성
-		orderer.GET("/detailMenu/:menuname", p.oc.GetMenuDetail) // 메뉴 상세보기 (평점, 리뷰 조회)
+		orderer.GET("/menu/:sort", p.oc.GetAllMenu)         // 메뉴 리스트 조회
+		orderer.POST("/order", p.oc.CreateOrder)            // 주문 생성
+		orderer.POST("/review/:orderID", p.oc.CreateReview) // 리뷰 생성
+		orderer.GET("/menu/:menuname", p.oc.GetMenuDetail)  // 메뉴 상세보기 (평점, 리뷰 조회)
 		/*
 			메뉴 추가, 변경과 같은 것을 구분하기 위해선 일반적으로 쿼리스트링을 통해 받아와 사용합니다.
 			혹은, 메뉴 추가와 변경에 대한 엔드포인트를 각각 생성하는 방법도 있겠습니다.
