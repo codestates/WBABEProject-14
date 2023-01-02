@@ -126,6 +126,7 @@ http://localhost:8080/swagger/index.html#/
 `POST /api/v01/taker/menu`
 ```json
 {
+  "storenumber":100,
   "limitorder": 300,
   "menuname": "우동",
   "orderstatus": false,
