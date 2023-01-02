@@ -119,7 +119,7 @@ func (p *Router) Idx() *gin.Engine {
 	//주문자
 	orderer := e.Group("api/v01/orderer", liteAuth())
 	{
-		orderer.GET("/menu/:sort", p.oc.GetAllMenu)         // 메뉴 리스트 조회
+		orderer.GET("/menus/:sort", p.oc.GetAllMenu)        // 메뉴 리스트 조회
 		orderer.POST("/order", p.oc.CreateOrder)            // 주문 생성
 		orderer.POST("/review/:orderID", p.oc.CreateReview) // 리뷰 생성
 		orderer.GET("/menu/:menuname", p.oc.GetMenuDetail)  // 메뉴 상세보기 (평점, 리뷰 조회)
