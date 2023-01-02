@@ -15,6 +15,7 @@ type Order struct {
 	Phone         string             `json:"phone" bson:"phone" example:"01020221205"`
 	Address       string             `json:"address" bson:"address" example:"서울시 강남구 위메이드동 1212-202 101호"`
 	CreatedAt     time.Time          `json:"createdat" bson:"createdat" example:"2022-12-24T16:17:12.793+00:00"`
+	UpdatedAt     time.Time          `json:"updatedat" bson:"updatedat" example:"2022-12-25T16:17:12.793+00:00"`
 	IsDelete      bool               `json:"isdelete" bson:"isdelete" example:"false"`
 	IsExistReview bool               `json:"isexistreview" bson:"isexistreview" example:"false"`
 	/*
