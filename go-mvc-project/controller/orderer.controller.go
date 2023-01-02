@@ -43,7 +43,7 @@ func (oc *OrdererController) CreateOrder(ctx *gin.Context) {
 	}
 	/* RETURN */
 	/*
-	생성의 경우 일반적으로 201 created를 리턴하는데, 이런 기본적인 부분을 잘 지켜주신 코드 굉장히 좋습니다.
+		생성의 경우 일반적으로 201 created를 리턴하는데, 이런 기본적인 부분을 잘 지켜주신 코드 굉장히 좋습니다.
 	*/
 	ctx.JSON(http.StatusCreated, gin.H{"주문번호": orderNumber})
 }
@@ -93,7 +93,7 @@ func (oc *OrdererController) CreateReview(ctx *gin.Context) {
 	}
 	/* RETURN */
 	/*
-	위의 주석과 달리 200 ok를 리턴하고 있습니다.
+		위의 주석과 달리 200 ok를 리턴하고 있습니다.
 	*/
 	ctx.JSON(http.StatusOK, model.Success{Message: "success"})
 }
@@ -132,7 +132,7 @@ func (oc *OrdererController) GetMenuDetail(ctx *gin.Context) {
 func (oc *OrdererController) UpdateOrder(ctx *gin.Context) {
 	var order *model.Order
 	id := ctx.Param("orderId")
-	status, err := strconv.Atoi(ctx.Param("flag"))
+	status, err := strconv.Atoi(ctx.Query("flag"))
 	/* BINDING */
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, model.Failure{Message: err.Error()})

@@ -127,8 +127,8 @@ func (p *Router) Idx() *gin.Engine {
 			메뉴 추가, 변경과 같은 것을 구분하기 위해선 일반적으로 쿼리스트링을 통해 받아와 사용합니다.
 			혹은, 메뉴 추가와 변경에 대한 엔드포인트를 각각 생성하는 방법도 있겠습니다.
 		*/
-		orderer.PATCH("/order/:orderId/:flag", p.oc.UpdateOrder) // 주문 변경
-		orderer.GET("/orders", p.oc.GetOrders)                   // 주문 내역 조회
+		orderer.PATCH("/order/:orderId", p.oc.UpdateOrder) // 주문 변경
+		orderer.GET("/orders", p.oc.GetOrders)             // 주문 내역 조회
 	}
 	return e
 }
