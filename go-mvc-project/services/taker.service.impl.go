@@ -3,7 +3,6 @@ package services
 import (
 	"context"
 	"errors"
-	"fmt"
 	"time"
 	"wba/go-mvc-procjet/model"
 
@@ -33,21 +32,26 @@ func (o *TakerServiceImplement) CreateMenu(menu *model.Menu) error {
 		e.g. A 가게의 김치찌개, B 가게의 김치찌개
 
 		유니크함을 보장하기 위해서라면 다른 값을 활용하시는 것이 좋아보입니다. (MenuId와 같은)
+
+		=> 각 가게를 구별할 수 있는것 , 가게 ID or 메뉴를 추가한 사용자의 ID 가 적합해보입니다.
+		=> 메뉴 추가시 가게이름을 받는다고 가정하고, 메뉴 필드에 가게번호를 추가하면 가게별로 메뉴 이름 중복 문제를 해결할 수 있을 것이라 생각합니다.
+		메뉴 추가시 요청 파라미터 1. 가게번호 2. 추가할 메뉴 이름
+		해당 가게번호에 해당 메뉴가 존재하는지 검사
 	*/
 
 	/* 메뉴이름 중복 검사 */
 	var isExistMenu model.Menu
 	/* 삭제되지 않은 메뉴중 동일한 메뉴이름이 존재 */
-	filter := bson.M{"menuname": menu.MenuName, "isdelete": false}
+	filter := bson.M{"storenumber": menu.StoreNumber, "menuname": menu.MenuName, "isdelete": false}
 	o.menuCollection.FindOne(o.ctx, filter).Decode(&isExistMenu)
 	if len(isExistMenu.MenuName) > 0 {
-		fmt.Println(isExistMenu.MenuName)
 		return errors.New("동일한 메뉴 이름이 존재합니다")
 	}
 	menu.Grade = 0
 	menu.Reorder = 0
 	menu.IsDelete = false
 	menu.CreatedAt = time.Now()
+	menu.UpdatedAt = time.Now()
 	_, err := o.menuCollection.InsertOne(o.ctx, menu)
 	return err
 }
@@ -60,6 +64,7 @@ func (o *TakerServiceImplement) UpdateMenu(menuname string, menu *model.Menu) er
 			"price":       menu.Price,
 			"origin":      menu.Origin,
 			"orderstatus": menu.OrderStatus,
+			"updatedat":   time.Now(),
 		},
 	}
 	result := o.menuCollection.FindOneAndUpdate(o.ctx, filter, query)
