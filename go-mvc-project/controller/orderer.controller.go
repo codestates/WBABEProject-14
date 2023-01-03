@@ -95,7 +95,7 @@ func (oc *OrdererController) CreateReview(ctx *gin.Context) {
 	/*
 		위의 주석과 달리 200 ok를 리턴하고 있습니다.
 	*/
-	ctx.JSON(http.StatusOK, model.Success{Message: "success"})
+	ctx.JSON(http.StatusCreated, model.Success{Message: "success"})
 }
 
 // @Summary 💡API  메뉴 상세 조회
