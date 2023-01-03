@@ -8,6 +8,7 @@
  - [사용 기술](#사용-기술)
  - [서버 아키텍처](#서버-아키텍처) 
  - [Api 명세서](#api-명세서)
+ - [피드백 개선](#피드백-개선)
  - [주요 기능](#주요-기능)
     - [피주문자](#피주문자)
         - [메뉴 생성](#메뉴-생성)
@@ -117,11 +118,22 @@ $ go mod tidy
 http://localhost:8080/swagger/index.html#/ 
 ```
 
+# 피드백 개선
+
++ [x] [created_at, updated_at 한 세트로 구성하기](https://github.com/codestates/WBABEProject-14/commit/e756f9bf36a119a4ca6f77dc9faa1c7a7ef9a0ad)
++ [x] [주문 상태를 Enum, Const 활용하기](https://github.com/codestates/WBABEProject-14/commit/bd302a8d54df3d60602e0704e04289952b870c67)
++ [x] [사용하지 않는 주석 코드 제거](https://github.com/codestates/WBABEProject-14/commit/0dfa0822f2ba5ba0972c4f70096b727179eb83d1)
++ [x] [rest Api 에 맞게 리팩토링 URI 에 자원만 명시 ( detail 삭제 )](https://github.com/codestates/WBABEProject-14/commit/000e7fd298956740da9d7bdede8b3dc1a861ad85)
++ [x] [메뉴 추가, 변경과 같은 것을 구분하기 위해선 일반적으로 쿼리스트링으로 사용](https://github.com/codestates/WBABEProject-14/commit/5672a10c5b346c0fa9784c1c57306be2bccefa01)
++ [x] [직관적이지 못한 네이밍 수정](https://github.com/codestates/WBABEProject-14/commit/16b877c611e43f92cb02176e29c1d21e67c5fbfc)
++ [x] [함수의 코드가 길어지는 경우 하나의 책임을 가질수 있도록 분리 필요](https://github.com/codestates/WBABEProject-14/commit/4a8f002705911e9c2358c3248790f6cebdac6823)
++ [x] [메뉴 추가시 메뉴 이름만으로 중복검사 처리는 용이하지 못함](https://github.com/codestates/WBABEProject-14/commit/0c6b0285a378b5ca73bf660eed059c1e1a7bf02f)
+
 # 주요 기능
 
 # 피주문자
 ## 메뉴 생성
-[func CreateMenu()](https://github.com/codestates/WBABEProject-14/blob/444bbb6ec3a2690a55dc284f948745caca543974/go-mvc-project/services/taker.service.impl.go#L29-L46)
+[func CreateMenu()](https://github.com/codestates/WBABEProject-14/blob/2e16bbfe5a251f2185d21ffc72bde57a4e57e1d8/go-mvc-project/services/taker.service.impl.go#L28-L57)
 ### Request
 `POST /api/v01/taker/menu`
 ```json
@@ -143,7 +155,7 @@ http://localhost:8080/swagger/index.html#/
 }
 ```
 ## 메뉴 수정
-[func UpdateMenu()](https://github.com/codestates/WBABEProject-14/blob/444bbb6ec3a2690a55dc284f948745caca543974/go-mvc-project/services/taker.service.impl.go#L48-L63)
+[func UpdateMenu()](https://github.com/codestates/WBABEProject-14/blob/2e16bbfe5a251f2185d21ffc72bde57a4e57e1d8/go-mvc-project/services/taker.service.impl.go#L59-L87)
 ### Request
 `PUT /api/v01/taker/menu/우동`
 
@@ -163,7 +175,7 @@ http://localhost:8080/swagger/index.html#/
 }
 ```
 ## 메뉴 삭제 
-[func DeleteMenu()](https://github.com/codestates/WBABEProject-14/blob/444bbb6ec3a2690a55dc284f948745caca543974/go-mvc-project/services/taker.service.impl.go#L65-L75)
+[func DeleteMenu()](https://github.com/codestates/WBABEProject-14/blob/2e16bbfe5a251f2185d21ffc72bde57a4e57e1d8/go-mvc-project/services/taker.service.impl.go#L77-L87)
 ### Request
 `DELETE /api/v01/taker/menu`
 ```json
@@ -178,7 +190,7 @@ http://localhost:8080/swagger/index.html#/
 }
 ```
 ## 추천 메뉴 변경
-[func UpdateMenuRecommend()](https://github.com/codestates/WBABEProject-14/blob/444bbb6ec3a2690a55dc284f948745caca543974/go-mvc-project/services/taker.service.impl.go#L77-L100)
+[func UpdateMenuRecommend()](https://github.com/codestates/WBABEProject-14/blob/2e16bbfe5a251f2185d21ffc72bde57a4e57e1d8/go-mvc-project/services/taker.service.impl.go#L89-L112)
 
 ```bash
 PATCH /api/v01/taker/menu
@@ -226,7 +238,7 @@ PATCH /api/v01/taker/menu
 }
 ```
 ## 현재 주문내역 조회 
-[func GetOrderList()](https://github.com/codestates/WBABEProject-14/blob/444bbb6ec3a2690a55dc284f948745caca543974/go-mvc-project/services/taker.service.impl.go#L102-L116)
+[func GetOrderList()](https://github.com/codestates/WBABEProject-14/blob/2e16bbfe5a251f2185d21ffc72bde57a4e57e1d8/go-mvc-project/services/taker.service.impl.go#L114-L128)
 
 
 `GET /api/v01/taker/orders`
@@ -263,7 +275,7 @@ PATCH /api/v01/taker/menu
 }
 ```
 ## 메뉴별 주문요청 상태 변경
-[UpdateOrderStatus](https://github.com/codestates/WBABEProject-14/blob/444bbb6ec3a2690a55dc284f948745caca543974/go-mvc-project/services/taker.service.impl.go#L118-L135)
+[UpdateOrderStatus](https://github.com/codestates/WBABEProject-14/blob/2e16bbfe5a251f2185d21ffc72bde57a4e57e1d8/go-mvc-project/services/taker.service.impl.go#L130-L147)
 
 `PATCH /api/v01/taker/orders/{menuname}`
 ### Request
@@ -327,7 +339,7 @@ PATCH /api/v01/taker/menu
 ```
 
 ## 주문 생성
-[func CreateMenu()](https://github.com/codestates/WBABEProject-14/blob/444bbb6ec3a2690a55dc284f948745caca543974/go-mvc-project/services/orderer.service.impl.go#L32-L55)
+[func CreateMenu()](https://github.com/codestates/WBABEProject-14/blob/2e16bbfe5a251f2185d21ffc72bde57a4e57e1d8/go-mvc-project/services/orderer.service.impl.go#L35-L62)
 
 ### Request 
 `POST /api/v01/orderer/order`
@@ -347,7 +359,7 @@ PATCH /api/v01/taker/menu
 ```
 
 ## 주문 메뉴 변경
-[func UpdateOrder()](https://github.com/codestates/WBABEProject-14/blob/444bbb6ec3a2690a55dc284f948745caca543974/go-mvc-project/services/orderer.service.impl.go#L146-L211)
+[func UpdateOrder()](https://github.com/codestates/WBABEProject-14/blob/2e16bbfe5a251f2185d21ffc72bde57a4e57e1d8/go-mvc-project/services/orderer.service.impl.go#L158-L182)
 
 ### Request 
 `PATCH /api/v01/orderer/order/{orderId}?flag={0,1}`
@@ -376,7 +388,7 @@ PATCH /api/v01/taker/menu
 
 
 ## 리뷰 작성
-[func CreateReview()](https://github.com/codestates/WBABEProject-14/blob/444bbb6ec3a2690a55dc284f948745caca543974/go-mvc-project/services/orderer.service.impl.go#L90-L144)
+[func CreateReview()](https://github.com/codestates/WBABEProject-14/blob/2e16bbfe5a251f2185d21ffc72bde57a4e57e1d8/go-mvc-project/services/orderer.service.impl.go#L97-L156)
 ### Request 
 `POST /api/v01/orderer/review/{orderID}`
 
@@ -395,7 +407,7 @@ PATCH /api/v01/taker/menu
 ```
 
 ## 메뉴 평점 리뷰 조회
-[func GetAllReview()](https://github.com/codestates/WBABEProject-14/blob/444bbb6ec3a2690a55dc284f948745caca543974/go-mvc-project/services/orderer.service.impl.go#L74-L88)
+[func GetAllReview()](https://github.com/codestates/WBABEProject-14/blob/2e16bbfe5a251f2185d21ffc72bde57a4e57e1d8/go-mvc-project/services/orderer.service.impl.go#L81-L95)
 ### Request 
 
 `GET /api/v01/orderer/detailMenu/{menuname}`
@@ -427,7 +439,7 @@ PATCH /api/v01/taker/menu
 ```
 
 ## 현재 주문 내역 조회
-[func Orders()](https://github.com/codestates/WBABEProject-14/blob/444bbb6ec3a2690a55dc284f948745caca543974/go-mvc-project/services/orderer.service.impl.go#L213-L237)
+[func Orders()](https://github.com/codestates/WBABEProject-14/blob/2e16bbfe5a251f2185d21ffc72bde57a4e57e1d8/go-mvc-project/services/orderer.service.impl.go#L184-L208)
 ### Request 
 `GET /api/v01/orderer/orders`
 
