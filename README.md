@@ -107,7 +107,7 @@ $ go mod tidy
 <summary>📋 Swagger 스크린샷 보기</summary>
 <div markdown="1">
 
-<img src="https://user-images.githubusercontent.com/103496262/209471052-fb6d1d6b-bcc5-4895-aa21-a392b123db7e.png"/>
+<img src="https://user-images.githubusercontent.com/103496262/210320765-7a5e36ca-efc0-44fa-9544-08f21d8d6132.png"/>
 
 </div>
 </details>
