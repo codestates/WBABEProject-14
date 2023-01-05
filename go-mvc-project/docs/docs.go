@@ -496,7 +496,7 @@ const docTemplate = `{
                     "type": "integer",
                     "example": 15000
                 },
-                "sprice": {
+                "spice": {
                     "type": "integer"
                 }
             }
@@ -624,7 +624,7 @@ const docTemplate = `{
                     "type": "integer",
                     "example": 15000
                 },
-                "sprice": {
+                "spice": {
                     "type": "integer"
                 }
             }
@@ -677,6 +677,7 @@ const docTemplate = `{
                     "example": "63a73a1c8d989838729bc114"
                 },
                 "createdat": {
+                    "description": "일반적으로 created_at, updated_at은 한 세트로 이루어집니다.\n\t\t그 이유는 추후 값 변경의 히스토리 추적을 위해서 updated_at이 용이합니다. 또한, 가장 최근에 변경된 순으로 정렬을 하는 경우에도 용이하구요.",
                     "type": "string",
                     "example": "2022-12-24T16:17:12.793+00:00"
                 },
@@ -719,6 +720,14 @@ const docTemplate = `{
                 "spice": {
                     "type": "integer",
                     "example": 3
+                },
+                "storenumber": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "updatedat": {
+                    "type": "string",
+                    "example": "2022-12-25T16:17:12.793+00:00"
                 }
             }
         },
@@ -758,8 +767,17 @@ const docTemplate = `{
                     "example": "01020221205"
                 },
                 "status": {
-                    "type": "integer",
+                    "description": "Status의 경우 상수를 통해 입력받는다면 사용하는 곳에서 코드를 읽기에 쉬워집니다.\n\t\t관련 키워드 : Enum, Const",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/model.Status"
+                        }
+                    ],
                     "example": 0
+                },
+                "updatedat": {
+                    "type": "string",
+                    "example": "2022-12-25T16:17:12.793+00:00"
                 }
             }
         },
@@ -795,6 +813,25 @@ const docTemplate = `{
                     "example": "떡볶이"
                 }
             }
+        },
+        "model.Status": {
+            "type": "integer",
+            "enum": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
+            "x-enum-varnames": [
+                "Ordering",
+                "OrderCancel",
+                "AddOrder",
+                "Cooking",
+                "Delivering",
+                "Complete"
+            ]
         },
         "model.Success": {
             "type": "object",
