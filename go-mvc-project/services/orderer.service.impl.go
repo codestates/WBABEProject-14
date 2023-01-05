@@ -46,7 +46,7 @@ func (o *OrdererServiceImplement) CreateOrder(order *model.Order) (int, error) {
 	/* 일련번호 - 오늘 날짜 기준  ( 🔥 UTC 한국날짜 기준 -9 시간 생각하기 ) */
 	/*
 		하루를 빼는 이유는 무엇인가요? UTC와 한국시간의 차이라면 9시간을 더하거나 뺴주어야 할 것 같습니다.
-		= 일련번호는 하루 단위로 초기화 되기 때문에 하루 전 00시 ~ 현재 시간을 기준으로 하기 때문입니다.
+		= 일련번호는 하루 단위로 초기화 되기 때문에 하루 전 00시 ~ 현재 시간까지 기준으로 하기 때문입니다.
 	*/
 	standard := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day()-1, 0, 00, 00, 0, time.UTC)
 	findQuery := bson.M{"createdat": bson.M{"$gte": standard, "$lt": order.CreatedAt}}
