@@ -6,6 +6,7 @@
  - [디렉토리 구조](#디렉토리-구조)
  - [개발 환경](#개발-환경)
  - [사용 기술](#사용-기술)
+ - [ERD](#erd)
  - [서버 아키텍처](#서버-아키텍처) 
  - [Api 명세서](#api-명세서)
  - [피드백 개선](#피드백-개선)
@@ -96,9 +97,12 @@ $ go mod tidy
     └── taker.service.impl.go   /* 피주문자 서비스 구현체 */
 ```
 
+### ERD
+<img src="https://user-images.githubusercontent.com/103496262/211019892-79a95a76-e678-4d7b-ba73-82a58e2e87e9.png"/>
+
 ### 서버 아키텍처 
 
-<img src="https://user-images.githubusercontent.com/103496262/209453624-da34cdbd-62cb-41c3-80b8-c73a3975ba3e.png">
+<img src="https://user-images.githubusercontent.com/103496262/209453624-da34cdbd-62cb-41c3-80b8-c73a3975ba3e.png"/>
 
 
 ### API 명세서
