@@ -22,6 +22,7 @@ func NewModel(mongoUrl string) (*mongo.Collection, *mongo.Collection, *mongo.Col
 	} else if err := r.Client.Ping(context.Background(), nil); err != nil {
 		return nil, nil, nil, err
 	}
+
 	colMenu := r.Client.Database("go-mvc-project").Collection("Menu")
 	colOrder := r.Client.Database("go-mvc-project").Collection("Order")
 	colReview := r.Client.Database("go-mvc-project").Collection("Review")
