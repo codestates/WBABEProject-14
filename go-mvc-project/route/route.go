@@ -31,7 +31,7 @@ func CORS() gin.HandlerFunc {
 			CORS 허용을 위해서 모든 도메인을 허용한다면 보안에 이슈가 생깁니다.
 			보통 운영되는 시스템의 경우는 특정한 도메인만을 허용하고 그 이외의 요청은 거부하도록 설정합니다.
 		*/
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:8080")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		//허용할 header 타입에 대해 열거
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, X-Forwarded-For, Authorization, accept, origin, Cache-Control, X-Requested-With")
