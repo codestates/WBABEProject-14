@@ -1,0 +1,13 @@
+{"level":"DEBUG","time":"2022-12-31T23:01:58.552+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"DEBUG","time":"2022-12-31T23:02:24.224+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"DEBUG","time":"2022-12-31T23:03:01.454+0900","caller":"logger/logger.go:52","msg":"debug","-":"ready server.... "}
+{"level":"INFO","time":"2022-12-31T23:03:01.477+0900","caller":"logger/logger.go:62","msg":"info","-":"start server "}
+{"level":"INFO","time":"2022-12-31T23:03:29.555+0900","caller":"logger/logger.go:115","msg":"/api/v01/orderer/order","status":201,"method":"POST","path":"/api/v01/orderer/order","query":"","ip":"::1","user-agent":"PostmanRuntime/7.30.0","errors":"","cost":0.019200584}
+{"level":"INFO","time":"2022-12-31T23:03:31.467+0900","caller":"logger/logger.go:115","msg":"/api/v01/orderer/order","status":201,"method":"POST","path":"/api/v01/orderer/order","query":"","ip":"::1","user-agent":"PostmanRuntime/7.30.0","errors":"","cost":0.008925042}
+{"level":"INFO","time":"2022-12-31T23:03:32.081+0900","caller":"logger/logger.go:115","msg":"/api/v01/orderer/order","status":201,"method":"POST","path":"/api/v01/orderer/order","query":"","ip":"::1","user-agent":"PostmanRuntime/7.30.0","errors":"","cost":0.00657275}
+{"level":"INFO","time":"2022-12-31T23:03:32.620+0900","caller":"logger/logger.go:115","msg":"/api/v01/orderer/order","status":201,"method":"POST","path":"/api/v01/orderer/order","query":"","ip":"::1","user-agent":"PostmanRuntime/7.30.0","errors":"","cost":0.004341625}
+{"level":"INFO","time":"2022-12-31T23:03:33.185+0900","caller":"logger/logger.go:115","msg":"/api/v01/orderer/order","status":201,"method":"POST","path":"/api/v01/orderer/order","query":"","ip":"::1","user-agent":"PostmanRuntime/7.30.0","errors":"","cost":0.009156417}
+{"level":"INFO","time":"2022-12-31T23:03:44.082+0900","caller":"logger/logger.go:115","msg":"/api/v01/taker/orders/떡볶이","status":200,"method":"PATCH","path":"/api/v01/taker/orders/떡볶이","query":"","ip":"::1","user-agent":"PostmanRuntime/7.30.0","errors":"","cost":0.006040167}
+{"level":"WARN","time":"2022-12-31T23:20:03.408+0900","caller":"logger/logger.go:72","msg":"warn","-":"Shutdown Server ... "}
+{"level":"INFO","time":"2022-12-31T23:20:04.414+0900","caller":"logger/logger.go:62","msg":"info","-":"timeout of 1 seconds. "}
+{"level":"INFO","time":"2022-12-31T23:20:04.415+0900","caller":"logger/logger.go:62","msg":"info","-":"Server exiting "}
