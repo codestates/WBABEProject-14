@@ -132,6 +132,7 @@ http://localhost:8080/swagger/index.html#/
 + [x] [직관적이지 못한 네이밍 수정](https://github.com/codestates/WBABEProject-14/commit/16b877c611e43f92cb02176e29c1d21e67c5fbfc)
 + [x] [함수의 코드가 길어지는 경우 하나의 책임을 가질수 있도록 분리 필요](https://github.com/codestates/WBABEProject-14/commit/4a8f002705911e9c2358c3248790f6cebdac6823)
 + [x] [메뉴 추가시 메뉴 이름만으로 중복검사 처리는 용이하지 못함](https://github.com/codestates/WBABEProject-14/commit/0c6b0285a378b5ca73bf660eed059c1e1a7bf02f)
++ [x] [CORS 허용은 특정 도메인만 적용하기](https://github.com/codestates/WBABEProject-14/blob/2c7ff2849b162ae369e5173197e121e5263c41ef/go-mvc-project/route/route.go#L34)
 
 # 주요 기능
 
